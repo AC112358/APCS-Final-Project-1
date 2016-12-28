@@ -1,0 +1,54 @@
+#Possible Questions To Ask:
+
+On a scale of 1-5...
+How hardworking do others view you?
+How hardworking do you view yourself?
+How efficient have you been at completing HW?
+How easily do you get distracted?
+How well does snack breaks work for you?
+How well does a power nap work for you?
+
+
+On a scale of 1-5 in terms of truthfulness...
+I have a busy scheduele
+I procrastinate a lot
+I feel good after completing work
+I live off rewards to motivate me
+I can focus on work for 2 hours easily
+I cram for my tests 
+I do well regardless of cramming or not
+Majority of my classes are test based
+I enjoy school
+I'm an early bird
+My scheduele and efficiency depends on my mood
+I think walks help me clear my mind
+I'm sleep deprived (under 5 hours) on weekdays and I recuperate on weekends
+
+
+
+#Processing these questions
+
+Different Categories
+	Willpower
+	Reward
+	Workload
+	Focus/Thinking Mode
+
+
+#Basics
+
+1. Create a bubble in sheet (using Gui and checkboxes)
+
+2. Processing Responses
+	***Overall, Coming up with the Point System and the AI tree wiil be the first step for this part of the project***
+	Initial (simple point system)
+	Later (more complex AI tree to determine what kind of person they are and try to modify scheduele accordingly)
+
+3. Display suggested Scheduele in text document (maybe search for better format if time)
+
+4. Allow for Accounts by organizing individual data into certain sections in the text document (set username and pw to view, but only do if time)
+
+	
+	
+
+
