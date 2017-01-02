@@ -2,8 +2,7 @@ public class RankSchedule {
 	public static double taskTime(Schedule s, int i){
 		double k = 2;
 		Task t = s.tasks.get(i);
-		double total = (k*t.difficulty)/(t.enjoyment*s.energy) *
-				(t.timeVar/t.eTime) + t.eTime;
+		double total = (k*t.difficulty)/(t.enjoyment*s.energy)*(t.timeVar) + t.eTime;
 		return total;
 	}
 	public static double newEnergy(Schedule s, int i){
