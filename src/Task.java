@@ -17,4 +17,13 @@ public class Task {
 		timeVar = 5;
 		taskTime = 0;
 	}
+	public Task(String name, Subject subj, double time, double var){
+		this(name, subj.difficulty, subj.enjoyment, time, var);
+	}
+	public String toString(){
+		String total = name;
+		total += "\n" + "- Difficulty: " + difficulty + "\n- Enjoyment: " + enjoyment;
+		total += "\n- Expected Time: " + eTime + "\n- Time Variation: " + timeVar;
+		return total;
+	}
 }
