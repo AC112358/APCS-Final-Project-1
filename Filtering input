@@ -1,0 +1,5 @@
+Filtering input: weird cases to catch!
+Break length < Break time (the timespan of a break is less than the time it takes: endTime - startTime < time) - handled: sets time to timespan
+User inputs a task name but the subject doesn't exist
+End time < start time for break or entire schedule
+Can't fit everything into schedule - maybe just give a partial schedule and say "Sorry, couldn't add all tasks. Please remove X minutes of tasks"
