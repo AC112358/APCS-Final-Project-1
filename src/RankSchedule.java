@@ -28,5 +28,7 @@ public class RankSchedule {
         total -= B * (s.stopTime - s.idealStop) * s.endTask.enjoyment;
         return total;
     }
-    
+    public static double toMinutes(double militTime){ //e.g., 1200
+		return ((int)militTime/100)*60 + ((int)militTime%100);
+	}
 }

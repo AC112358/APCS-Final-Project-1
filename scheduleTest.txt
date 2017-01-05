@@ -6,3 +6,6 @@
 "'precalc stuff' check email" 90 60
 "'history' 14.3 cornell notes" 60 10
 "'drafting' autocad" 90 30
+
+
+break 'eat dinner' 500 530 45

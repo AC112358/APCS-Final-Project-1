@@ -8,10 +8,14 @@ public class TestMethods {
 	static Schedule schedule;
 	static ArrayList<Subject> subjects;
 	
+	
 	public static String subjName(String[] tokens){
+		return subjName(tokens, 0);
+	}
+	public static String subjName(String[] tokens, int start){
 		int endSubj = -1;
 		String subjName = "";
-		for (int i = 0; i < tokens.length-2; i++){ //note this requires the name to have subj + taskname
+		for (int i = start; i < tokens.length-2; i++){ //note this requires the name to have subj + taskname
 			subjName += tokens[i] + " ";
 			if (tokens[i].endsWith("\'")){
 				endSubj = i;
@@ -52,7 +56,7 @@ public class TestMethods {
 				}
 				subjects.add(new Subject(subjName,Double.parseDouble(tokens[tokens.length-2])/100, Double.parseDouble(tokens[tokens.length-1])/100));
 				System.out.println(subjName);
-			}if (tokens[0].startsWith("\"'")){
+			}else if (tokens[0].startsWith("\"'")){
 				tokens[0] = tokens[0].substring(1);
 				String subjName = subjName(tokens);
 				if (subjName.equals("")){
@@ -86,11 +90,17 @@ public class TestMethods {
 					System.out.println(subjName);
 					schedule.tasks.add(new Task(subjName + " " + name2, subjects.get(subjIndex), t, v));
 				}
+			}else if (tokens[0].equals("break")){
+				String breakName = subjName(tokens, 1);
+				int index = tokens.length;
+				schedule.breaks.add(new Break(breakName, Double.parseDouble(tokens[index-3]), 
+						Double.parseDouble(tokens[index-2]), Double.parseDouble(tokens[index-1])));
 			}else{
 				return;
 			}
-		}catch(Exception e){
-			return;
+		}catch(Exception e){ //hopefully this will not happen, since GUI will filter user input
+			System.out.println("User input invalid!");
+			System.exit(0);
 		}
 	}
 	
@@ -145,7 +155,7 @@ public class TestMethods {
 	}
 	
 	public static double toMinutes(double militTime){ //e.g., 1200
-		return (militTime/100)*60 + (militTime%100);
+		return ((int)militTime/100)*60 + ((int)militTime%100);
 	}
 	
 	public static void runSchedule(){
