@@ -8,20 +8,62 @@ public class TestMethods {
 	static Schedule schedule;
 	static ArrayList<Subject> subjects;
 	
+	public static String subjName(String[] tokens){
+		int endSubj = -1;
+		String subjName = "";
+		for (int i = 0; i < tokens.length-2; i++){ //note this requires the name to have subj + taskname
+			subjName += tokens[i] + " ";
+			if (tokens[i].endsWith("\'")){
+				endSubj = i;
+				break;
+			}
+		}
+		if (endSubj == -1){
+			return "";
+		}
+		subjName = subjName.substring(1, subjName.length()-2);
+		//System.out.println(subjName);
+		return subjName;
+	}
+	
+	public static int subjIndex(String[] tokens){
+		int endSubj = -1;
+		for (int i = 0; i < tokens.length-2; i++){ //note this requires the name to have subj + taskname
+			if (tokens[i].endsWith("\'")){
+				endSubj = i;
+				break;
+			}
+		}
+		if (endSubj == -1){
+			return 0;
+		}
+		return endSubj;
+	}
+	
 	public static void processText(String line){
 		String[] tokens = line.split(" ");
-		System.out.println(line);
+		//System.out.println(line);
 		try{
-			if (tokens[0].startsWith("\'") && tokens[0].endsWith("\'")){
-				subjects.add(new Subject(tokens[0].substring(1, tokens[0].length()-1), 
-						Double.parseDouble(tokens[1])/100, Double.parseDouble(tokens[2])/100));
-			}else if (tokens[0].startsWith("\"'") && tokens[0].endsWith("\'")){
-				tokens[0] = tokens[0].substring(2, tokens[0].length()-1);
+			if (tokens[0].startsWith("\'")){
+				String subjName = subjName(tokens);
+				//System.out.println(subjName);
+				if (subjName.equals("")){
+					return;
+				}
+				subjects.add(new Subject(subjName,Double.parseDouble(tokens[tokens.length-2])/100, Double.parseDouble(tokens[tokens.length-1])/100));
+				System.out.println(subjName);
+			}if (tokens[0].startsWith("\"'")){
+				tokens[0] = tokens[0].substring(1);
+				String subjName = subjName(tokens);
+				if (subjName.equals("")){
+					return;
+				}
 				int index = tokens.length-3;
+				int start = subjIndex(tokens);
 				String name2 = "";
 				if (tokens[index].endsWith("\"")){
 					tokens[index] = tokens[index].substring(0, tokens[index].length()-1);
-					for (int i = 1; i <= index; i++){
+					for (int i = start+1; i <= index; i++){
 						name2 += tokens[i].toLowerCase() + " ";
 					}
 					name2 = name2.substring(0, name2.length()-1);
@@ -30,7 +72,7 @@ public class TestMethods {
 				}
 				int subjIndex = -1;
 				for (int i = 0; i < subjects.size() && subjIndex == -1; i++){
-					if (subjects.get(i).name.equals(tokens[0])){
+					if (subjects.get(i).name.equals(subjName)){
 						subjIndex = i;
 					}
 				}
@@ -41,7 +83,8 @@ public class TestMethods {
 					return;
 				}
 				else{
-					schedule.tasks.add(new Task(tokens[0] + " " + name2, subjects.get(subjIndex), t, v));
+					System.out.println(subjName);
+					schedule.tasks.add(new Task(subjName + " " + name2, subjects.get(subjIndex), t, v));
 				}
 			}else{
 				return;
@@ -117,12 +160,12 @@ public class TestMethods {
 				Task t = new Task();
 				t.name = "Break";
 				t.taskTime = 20;
-				t.difficulty = -1; //arbitrary as of now, increases energy
-				t.enjoyment = -1;
+				t.difficulty = 0; //arbitrary as of now, increases energy
+				t.enjoyment = 1;
 				schedule.tasks.add(i, t);
+				//i++;
+				//newEnergy += 20;
 			}
-			newTime = RankSchedule.taskTime(schedule, i);
-			newEnergy = RankSchedule.newEnergy(schedule, i);
 			schedule.tasks.get(i).taskTime = newTime;
 			schedule.energy = newEnergy;
 			System.out.println(schedule.tasks.get(i).name + ": " + schedule.tasks.get(i).taskTime);
@@ -161,7 +204,7 @@ public class TestMethods {
 				st = new StringTokenizer(newLine);
 			}
 		}
-		//System.out.println(schedule);
+		System.out.println(schedule);
 		/*for (int i = 0; i < subjects.size(); i++){
 			System.out.println(subjects.get(i).name + " " + subjects.get(i).difficulty 
 					+ " " + subjects.get(i).enjoyment);
