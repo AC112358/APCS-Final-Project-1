@@ -11,13 +11,41 @@ import java.io.FileNotFoundException;
 
 public class survey extends JFrame{
 
-    public survey(){
+    public void main (String[] args){
+	JFrame surveyFrame = new JFrame ("Survey");
+	//frame is closeable
+	frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+
+	//for just about all swing, I will be using GridBagLayout
+	pane.setLayout(new GridBagLayout());
+	GridBagConstraints c = new GridBagConstraints();
+
+	//Survey Heading
+	JLabel Survey = new JLabel("SURVEY");
+	Survey.Center;
+	c.fill = GridBagConstraints.HORIZONTAL;
+	//padding around the word SURVEY
+	c.ipady = 10;
+	//space between columns (we make 0 to make it span across 3 columns essentially)
+	c.weightx = 0;
+
+	c.gridx = 0;
+	//just one column
+	c.gridy = 1;
+	pane.add(Survey, c);
+
+
+	//first subpanel consist of 
 	//v1: Finite Rows (10 rows + 1 header, 3 columns)
 	setLayout(new GridLayout(11,3,0,0));
 	//table header
+	public static final CENTER;
 	JLabel SubjectName = new JLabel("Subject name");
+	SubjectName.CENTER;
 	JLabel Difficulty = new JLabel("Difficulty(/100)");
+	Difficulty.CENTER;
 	JLabel Enjoyment = new JLabel("Enjoyment(/100)");
+	Enjoyment.CENTER;
 	//
 	JTextField Subject1 = new JTextField("");
 	JTextField Subject2 = new JTextField("");
@@ -29,4 +57,5 @@ public class survey extends JFrame{
 	JTextField Activity8 = new JTextField("");
 	JTextField Activity9 = new JTextField("");
 	JTextField Activity10 = new JTextField("");
-	
+    }
+}
