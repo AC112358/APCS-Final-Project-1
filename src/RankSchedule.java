@@ -9,10 +9,16 @@ public class RankSchedule {
         return total;
     }
     public static double newEnergy(Schedule s, int i){
-        double k = -0.2;
+	/* double k = -0.2;
         double c = -10;
         Task t = s.tasks.get(i);
-        return k * t.taskTime + c * t.difficulty + s.energy;
+        return k * t.taskTime + c * t.difficulty + s.energy;*/
+	Task t = s.tasks.get(i);
+	//	double total = Math.pow(s.energy, t.enjoyment*t.difficulty*3);
+	//	total *= t.taskTime;
+	double total = Math.pow(Math.E, t.enjoyment * t.taskTime * t.difficulty * s.energy);
+	total += .5;
+	return 1/total;
     }
     public static double utility(Schedule s){
         if (s.energy < 0){
@@ -66,6 +72,16 @@ public class RankSchedule {
     public static void runSchedule(Schedule schedule){
     	runSchedule(schedule, false);
     }
+
+    public static double breakEnergy(Schedule schedule, int i){
+	Break b = schedule.breaks.get(i);
+	return schedule.energy + 10*b.time;  
+    }
+
+    public static double taskBreakEnergy(Schedule schedule, int i){
+	Task t = schedule.tasks.get(i);
+	return schedule.energy + 10*t.taskTime;
+    }
 public static void runSchedule(Schedule schedule, boolean verbose){
 	if (verbose){System.out.println("\n\n");}
 		double newEnergy, newTime, totalTime;
@@ -76,7 +92,7 @@ public static void runSchedule(Schedule schedule, boolean verbose){
 		int breakIndex = 0;
 		for (int i = 0; i < schedule.tasks.size() && totalTime < timeDiff; i++){
 		    if (breakIndex < schedule.breaks.size() && curTime >= toMinutes(schedule.breaks.get(breakIndex).startTime)){
-		    	newEnergy = newEnergy * 1.1;  //arbitrary increase of energy
+		    	newEnergy = breakEnergy(schedule, breakIndex);  //arbitrary increase of energy
 		    	newTime = schedule.breaks.get(breakIndex).time;
 		    	if (verbose){
 		    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
@@ -98,7 +114,9 @@ public static void runSchedule(Schedule schedule, boolean verbose){
 					newTime = RankSchedule.taskTime(schedule, i);
 					}
 				schedule.tasks.get(i).taskTime = newTime;
-				newEnergy = RankSchedule.newEnergy(schedule, i);
+				if (newEnergy <= 0){
+				    newEnergy = RankSchedule.taskBreakEnergy(schedule, i);
+				}
 				if (verbose){
 					System.out.println(schedule.tasks.get(i).name + ": " + schedule.tasks.get(i).taskTime);
 				}
