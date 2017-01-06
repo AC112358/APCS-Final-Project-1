@@ -28,4 +28,18 @@ public class Schedule {
 		}
 		return total;
 	}
+	
+	public Schedule makeCopy(){
+		Schedule copy = new Schedule(energy, startTime, idealStop);
+		copy.stopTime = stopTime;
+		copy.utility = utility;
+		for (int i = 0; i < tasks.size(); i++){
+			copy.tasks.add(tasks.get(i).makeCopy());
+		}
+		copy.endTask = endTask.makeCopy();
+		for (int i = 0; i < breaks.size(); i++){
+			copy.breaks.add(breaks.get(i).makeCopy());
+		}
+		return copy;
+	}
 }

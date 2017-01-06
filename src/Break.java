@@ -1,5 +1,5 @@
 
-public class Break{
+public class Break implements Comparable<Break>{
 	double startTime, endTime;
 	double time;
 	String name;
@@ -22,6 +22,10 @@ public class Break{
 		return total;
 	}
     public int compareTo(Break b){
-	return toMinutes(this.startTime) - toMinutes(b.startTime);
+    	return (int)(toMinutes(this.startTime) - toMinutes(b.startTime));
+    }
+    
+    public Break makeCopy(){
+    	return new Break(name, startTime, endTime, time);
     }
 }

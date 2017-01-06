@@ -26,4 +26,9 @@ public class Task {
 		total += "\n- Expected Time: " + eTime + "\n- Time Variation: " + timeVar;
 		return total;
 	}
+	public Task makeCopy(){
+		Task copy = new Task(name, difficulty, enjoyment, eTime, timeVar);
+		copy.taskTime = taskTime;
+		return copy;
+	}
 }

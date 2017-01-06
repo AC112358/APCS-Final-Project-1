@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class TestMethods {
@@ -143,6 +144,7 @@ public class TestMethods {
 	}
 	
 	public static void makeSchedules(){
+		double orig = schedule.energy;
 		ArrayList<ArrayList<Integer>> order = permutations(range(schedule.tasks.size()));
 		for (int i = 0; i < order.size(); i++){
 			ArrayList<Task> temp = new ArrayList<Task>();
@@ -150,8 +152,8 @@ public class TestMethods {
 				temp.add(schedule.tasks.get(order.get(i).get(j)));
 			}
 			schedule.tasks = temp;
-			schedule.energy = 100;
-			RankSchedule.runSchedule(schedule);
+			schedule.energy = orig;
+			RankSchedule.runSchedule(schedule, true);
 		}
 	}
 	
@@ -201,7 +203,12 @@ public class TestMethods {
 		}
 		System.out.println(permutations(test).size());*/
 		schedule.endTask = new Task("sleep", 0, 1, 0, 0);
-		Arrays.sort(s.breaks);
+		Collections.sort(schedule.breaks);
 		makeSchedules();
+		System.out.println("-----AND NOW FOR THE GRAND EVENT----");
+		Schedule optimum = RankSchedule.optimizeSchedule(schedule);
+		//System.out.println(optimum);
+		//System.out.println("UTILITY: " + optimum.utility);
+		RankSchedule.runSchedule(optimum, true);
 	}
 }

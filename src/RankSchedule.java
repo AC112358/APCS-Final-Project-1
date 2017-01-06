@@ -32,49 +32,87 @@ public class RankSchedule {
 		return ((int)militTime/100)*60 + ((int)militTime%100);
 	}
 
-    public static void optimizeSchedule(Schedule s){
-	simAnneal(s, 100);
+    public static Schedule optimizeSchedule(Schedule s){
+    	return simAnneal(s, 100);
     }
 
-    public static void simAnneal(Schedule s, int temp){
-	
+    public static Schedule mutate(Schedule schedule){
+    	int firstIndex = (int)(Math.random()*(schedule.tasks.size()-1));
+    	Schedule copy = schedule.makeCopy();
+    	Task tempTask = copy.tasks.get(firstIndex);
+    	copy.tasks.set(firstIndex, copy.tasks.get(firstIndex+1));
+    	copy.tasks.set(firstIndex+1, tempTask);
+    	return copy;
+    }
+    public static Schedule simAnneal(Schedule s, int temp){
+    	if (temp <= 0){
+    		return s;
+    	}
+    	Schedule mutant = mutate(s);
+    	runSchedule(mutant, false);
+    	//System.out.println(mutant.energy);
+    	//System.out.println();
+    	mutant.utility = utility(mutant);
+    	int newTemp = temp - 1;
+    	if (mutant.utility > s.utility){
+    		return simAnneal(mutant, newTemp);
+    	}
+    	if (Math.random() <= Math.pow(Math.E, (s.utility-mutant.utility)/(-1*temp))){ //seems about in range
+    			return simAnneal(mutant, newTemp);
+    	}
+    	return simAnneal(s, newTemp);
     }
 
-public static void runSchedule(Schedule schedule){
-		System.out.println("\n\n");
+    public static void runSchedule(Schedule schedule){
+    	runSchedule(schedule, false);
+    }
+public static void runSchedule(Schedule schedule, boolean verbose){
+	if (verbose){System.out.println("\n\n");}
 		double newEnergy, newTime, totalTime;
+		newEnergy = schedule.energy;
 		totalTime = 0;
 		double timeDiff = toMinutes(schedule.stopTime) - toMinutes(schedule.startTime);
 		double curTime = toMinutes(schedule.startTime);
 		int breakIndex = 0;
 		for (int i = 0; i < schedule.tasks.size() && totalTime < timeDiff; i++){
-		    if (breakIndex < s.breaks.size() && curTime >= s.breaks.get(breakIndex).startTime){
-	    newEnergy = newEnergy * 1.1;  //arbitrary increase of energy
-	    newTime = s.breaks.get(breakIndex).time;
-	    breakIndex++;
-	}else{
-			newTime = RankSchedule.taskTime(schedule, i);
-			newEnergy = RankSchedule.newEnergy(schedule, i);
-			if (newEnergy <= 0){
-				Task t = new Task();
-				t.name = "Break";
-				t.taskTime = 20;
-				t.difficulty = 0; //arbitrary as of now, increases energy
-				t.enjoyment = 1;
-				schedule.tasks.add(i, t);
-				//i++;
-				//newEnergy += 20;
-			}
-
-			schedule.tasks.get(i).taskTime = newTime;
-	}
+		    if (breakIndex < schedule.breaks.size() && curTime >= toMinutes(schedule.breaks.get(breakIndex).startTime)){
+		    	newEnergy = newEnergy * 1.1;  //arbitrary increase of energy
+		    	newTime = schedule.breaks.get(breakIndex).time;
+		    	if (verbose){
+		    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
+		    	}
+		    	breakIndex++;
+		    	i--;
+		    }else{
+				newTime = RankSchedule.taskTime(schedule, i);
+				newEnergy = RankSchedule.newEnergy(schedule, i);
+				if (newEnergy <= 0){
+					Task t = new Task();
+					t.name = "Break";
+					t.taskTime = 20;
+					t.difficulty = 0; //arbitrary as of now, increases energy
+					t.enjoyment = 1;
+					schedule.tasks.add(i, t);
+					//i++;
+					//newEnergy += 20;
+					newTime = RankSchedule.taskTime(schedule, i);
+					}
+				schedule.tasks.get(i).taskTime = newTime;
+				newEnergy = RankSchedule.newEnergy(schedule, i);
+				if (verbose){
+					System.out.println(schedule.tasks.get(i).name + ": " + schedule.tasks.get(i).taskTime);
+				}
+		    }
 			schedule.energy = newEnergy;
-			System.out.println(schedule.tasks.get(i).name + ": " + schedule.tasks.get(i).taskTime);
-			System.out.println("\t" + schedule.energy);
+			if (verbose){
+				System.out.println("\t" + schedule.energy);
+			}
 			totalTime += newTime;
 			curTime += totalTime;
 	}
 		schedule.utility = RankSchedule.utility(schedule);
-		System.out.println("Utility: " + schedule.utility);
+		if (verbose){
+			System.out.println("Utility: " + schedule.utility);
+		}
 	}
 }
