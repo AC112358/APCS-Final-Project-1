@@ -57,9 +57,7 @@ public class survey extends JFrame{
 	JTextField Activity8 = new JTextField("");
 	JTextField Activity9 = new JTextField("");
 	JTextField Activity10 = new JTextField("");
-<<<<<<< HEAD
-=======
-	
+	    //There were some git problems so I saved my previous and my edited version, will delete excess later	
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
@@ -119,6 +117,5 @@ public class survey extends JFrame{
 	JTextField Activity8 = new JTextField("");
 	JTextField Activity9 = new JTextField("");
 	JTextField Activity10 = new JTextField("");
->>>>>>> ce5b622276c032765030da22c81e1988a31e1a12
     }
 }
