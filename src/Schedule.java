@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Schedule {
+public class Schedule implements Comparable<Schedule>{
 	ArrayList<Task> tasks = new ArrayList<Task>();
 	double energy, utility;
 	double idealStop, startTime, stopTime;
@@ -41,5 +41,8 @@ public class Schedule {
 			copy.breaks.add(breaks.get(i).makeCopy());
 		}
 		return copy;
+	}
+	public int compareTo(Schedule other){
+		return (int)(Math.pow(10, 6)*utility-other.utility);
 	}
 }

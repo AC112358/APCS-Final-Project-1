@@ -164,6 +164,11 @@ public class TestMethods {
 
 	
 	public static void main(String[] args) throws IOException{
+		/*Task t = new Task("high diff, low e", 100, 1, 100, 10);
+		Task t2 = new Task("low diff, high e", 1, 100, 100, 10);
+		System.out.println(t);
+		System.out.println(t2);*/
+				//String name, double d, double e, double time, double var
 		BufferedReader b = new BufferedReader(new FileReader("scheduleTest.txt"));
 		//PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("namenum.out")));
 		StringTokenizer st = new StringTokenizer(b.readLine());
@@ -206,7 +211,7 @@ public class TestMethods {
 		Collections.sort(schedule.breaks);
 		makeSchedules();
 		System.out.println("-----AND NOW FOR THE GRAND EVENT----");
-		Schedule optimum = RankSchedule.optimizeSchedule(schedule);
+		Schedule optimum = RankSchedule.optimizeSchedule2(schedule);
 		//System.out.println(optimum);
 		//System.out.println("UTILITY: " + optimum.utility);
 		RankSchedule.runSchedule(optimum, true);

@@ -28,4 +28,5 @@ public class Break implements Comparable<Break>{
     public Break makeCopy(){
     	return new Break(name, startTime, endTime, time);
     }
+    
 }
