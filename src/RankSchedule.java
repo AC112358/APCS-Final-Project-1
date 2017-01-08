@@ -55,7 +55,9 @@ public static double T(Schedule s){
 		return total;
 	}
 	
-	public static void runSchedule2(Schedule schedule, boolean verbose){
+	public static String runSchedule2(Schedule schedule, boolean verbose){
+		String output = "";
+		String toDo = "";
 		//System.out.println("RUN SCHEDULE 2!");
 		if (verbose){System.out.println("\n\n");}
 			double newEnergy, newTime, totalTime;
@@ -80,13 +82,14 @@ public static double T(Schedule s){
 				    	if (verbose){
 				    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
 				    	}
+				    	toDo = schedule.breaks.get(breakIndex).name;
 			    	}		    	
 			    	breakIndex++;
 			    	
 			    }else{
 					newTime = RankSchedule.taskTime2(schedule, i, breakIndex, verbose);
 					newEnergy = RankSchedule.newEnergy2(schedule, i);
-					if (newEnergy <= .2 * origEnergy){
+					if (newEnergy <= .1 * origEnergy){
 						//if (verbose){System.out.println("\t\t ENERGY: " + newEnergy);}
 						Break b = new Break();
 						//b.name = "Break " + breakIndex;
@@ -99,6 +102,7 @@ public static double T(Schedule s){
 				    	if (verbose){
 				    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
 				    	}
+				    	toDo = schedule.breaks.get(breakIndex).name;
 				    	breakIndex++;
 				    	i--;
 					}
@@ -109,14 +113,17 @@ public static double T(Schedule s){
 									" & " + schedule.tasks.get(i).time2);
 						}
 						newEnergy = RankSchedule.newEnergy2(schedule, i);
+						toDo = schedule.tasks.get(i).name;
 					}
 			    }
 			    schedule.energy = newEnergy;
 				if (verbose){
 					System.out.println("\t" + schedule.energy);
 				}
+				output += "\n" + timeString(curTime) + " - ";
 				totalTime += newTime;
-				curTime += totalTime;
+				curTime += newTime;
+				output += timeString(curTime) + ": " + toDo;
 		}
 			schedule.utility = RankSchedule.utility2(schedule);
 			if (i < schedule.tasks.size()){
@@ -127,7 +134,27 @@ public static double T(Schedule s){
 			}
 			schedule.energy = origEnergy;
 			schedule.breaks = allBreaks;
+			return output;
 		}
+	
+	public static String timeString(double time){
+		time %= 2400;
+		int min = (int)(time - (int)(time/60) * 60);
+		int hr = (int)(time/60)*100;
+		int newTime = hr + min;
+		String mins =  String.format("%02d", ((int)(newTime % 100)));	
+		//System.out.println(newTime/1000);
+		if (newTime / 100 == 12){
+			return "" + 12 + ":" + mins + "PM";
+		}
+		if (newTime / 100 == 0){
+			return "" + 12 + ":" + mins + "AM";
+		}
+		if (newTime / 100 > 12){
+			return "" + (newTime-1200)/100 + ":" + mins + "PM";
+		}
+		return "" + newTime/100 + ":" + mins + "AM";
+	}
 	public static void runSchedule2(Schedule s){
 		runSchedule2(s, false);
 	}
@@ -212,7 +239,7 @@ public static double T(Schedule s){
     }
     public static double utility2(Schedule s){
         if (s.energy < 0){
-        return -1;
+        	return -1;
         }
         double A = 1;
         double B = 1;
@@ -319,6 +346,7 @@ public static double T(Schedule s){
     	return schedule.energy + .1 * t.taskTime;
     }
 public static void runSchedule(Schedule schedule, boolean verbose){
+	//String output = "";
 	if (verbose){System.out.println("\n\n");}
 		double newEnergy, newTime, totalTime;
 		newEnergy = schedule.energy;
@@ -327,6 +355,7 @@ public static void runSchedule(Schedule schedule, boolean verbose){
 		double timeDiff = toMinutes(schedule.stopTime) - toMinutes(schedule.startTime);
 		double curTime = toMinutes(schedule.startTime);
 		int breakIndex = 0;
+		//String toDo = "";
 		for (int i = 0; i < schedule.tasks.size() && totalTime < timeDiff; i++){
 		    if (breakIndex < schedule.breaks.size() && curTime >= toMinutes(schedule.breaks.get(breakIndex).startTime)){
 		    	newEnergy = breakEnergy(schedule, breakIndex);  //arbitrary increase of energy

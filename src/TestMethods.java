@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
@@ -163,7 +166,6 @@ public class TestMethods {
 		return ((int)militTime/100)*60 + ((int)militTime%100);
 	}
 	
-
 	
 	public static void main(String[] args) throws IOException{
 		/*Task t = new Task("high diff, low e", 100, 1, 100, 10);
@@ -212,10 +214,22 @@ public class TestMethods {
 		schedule.endTask = new Task("sleep", 0, 1, 0, 0);
 		Collections.sort(schedule.breaks);
 		makeSchedules();
-		System.out.println("-----AND NOW FOR THE GRAND EVENT----");
+		System.out.println("-----AND NOW FOR THE MAIN EVENT----");
+		System.out.println(toMinutes(schedule.startTime) + " && " + toMinutes(schedule.stopTime));
 		Schedule optimum = RankSchedule.optimizeSchedule2(schedule);
 		//System.out.println(optimum);
 		//System.out.println("UTILITY: " + optimum.utility);
-		RankSchedule.runSchedule2(optimum, true);
+		System.out.println(RankSchedule.runSchedule2(optimum, true));
+		/*System.out.println(RankSchedule.timeString(1234));
+		System.out.println(RankSchedule.timeString(0045));
+		System.out.println(RankSchedule.timeString(513));
+		System.out.println(RankSchedule.timeString(1708));*/
+		PrintWriter out = new PrintWriter(new FileWriter(new File("schedule.txt")));
+		String total = RankSchedule.runSchedule2(optimum, false);
+		String[] lines = total.split("\n");
+		for (String line : lines){
+			out.println(line);
+		}
+		out.close();
 	}
 }
