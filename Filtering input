@@ -1,0 +1,9 @@
+Filtering input: weird cases to catch!
+Break length < Break time (the timespan of a break is less than the time it takes: endTime - startTime < time) - handled: sets time to timespan
+User inputs a task name but the subject doesn't exist
+End time < start time for break or entire schedule
+Can't fit everything into schedule - maybe just give a partial schedule and say "Sorry, couldn't add all tasks. Please remove X minutes of tasks"
+Subject name or task name is blank - should be handled by GUI
+Breaks occur as close to the starting time as possible (insert once current time >= starting time) - so it's possible to have the break much later
+ - But what if you want to go to an event at a certain time? No support for that right now, user would have to manually make a new schedule by pressing "Update" again or something
+ Make sure everything inputted is > 0!!
