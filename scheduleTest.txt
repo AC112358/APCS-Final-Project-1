@@ -3,7 +3,7 @@
 'history' 80 30
 'drafting' 40 10
 
-"'precalc' check email" 90a 60
+"'precalc' check email" 90 60
 "'history' 14.3 cornell notes" 60 10
 "'drafting' autocad" 90 30
 
