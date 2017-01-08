@@ -1,0 +1,37 @@
+public class Survey {
+
+    private JFrame f;
+    private JPanel p1;
+    private Jbutton addb;
+    private Jlabel add;
+
+    public Survey()
+    {
+	gui();
+    }
+
+    public void gui()
+    {
+	//frame setup
+	f = new JFrame("Survey");
+	f.setVisible(true);
+	f.setSize(800,400); //800 width by 400 height
+	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	p1 = new Jpanel();
+	p.setBackground(Color.YELLOW);
+
+	addb = new JButton("add");
+	add = new JLabel("add row");
+
+	p1.add(addb);
+	p1.add(add);
+
+	f.add(p1);
+    }
+
+    public static void main(String[] args)
+    {
+	new Survey();
+
+    }
