@@ -99,6 +99,8 @@ public class TestMethods {
 			}else{
 				return;
 			}
+			RankSchedule.T = RankSchedule.T(schedule);
+	    	RankSchedule.b = RankSchedule.b(schedule);
 		}catch(Exception e){ //hopefully this will not happen, since GUI will filter user input
 			System.out.println("User input invalid!");
 			System.exit(0);
@@ -153,7 +155,7 @@ public class TestMethods {
 			}
 			schedule.tasks = temp;
 			schedule.energy = orig;
-			RankSchedule.runSchedule(schedule, true);
+			RankSchedule.runSchedule2(schedule, true);
 		}
 	}
 	
@@ -214,6 +216,6 @@ public class TestMethods {
 		Schedule optimum = RankSchedule.optimizeSchedule2(schedule);
 		//System.out.println(optimum);
 		//System.out.println("UTILITY: " + optimum.utility);
-		RankSchedule.runSchedule(optimum, true);
+		RankSchedule.runSchedule2(optimum, true);
 	}
 }

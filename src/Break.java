@@ -12,6 +12,12 @@ public class Break implements Comparable<Break>{
 			time = toMinutes(endTime) - toMinutes(startTime);
 		}
 	}
+	public Break(){
+		name = "";
+		time = 0;
+		startTime = 0;
+		endTime = 0;
+	}
 	 public static double toMinutes(double militTime){ //e.g., 1200
 			return ((int)militTime/100)*60 + ((int)militTime%100);
 		}

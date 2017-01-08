@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class RankSchedule {
 	static double T = 1;
 	static double b = 1;
-	public static double F(Schedule s, int k, int r, double t){
+	public static double F(Schedule s, int k, int r, double t, boolean verbose){
 		double sum1 = 1;
 		double sum2 = 1;
 		for (int i = 0; i < r; i++){
@@ -12,61 +12,106 @@ public class RankSchedule {
 		for (int i = k; i < r; i++){
 			sum1 += s.tasks.get(i).taskTime;
 		}
-		return t/T * s.tasks.get(r).taskTime * (Math.pow(sum1, b) - Math.pow(sum2, b));
+		/*if (verbose){
+			//System.out.print(sum2 + " ");
+			System.out.print(Math.pow(sum1, b) + " - " + Math.pow(sum2, b) + "\t\t");
+			}*/
+		sum1 = t/T * s.tasks.get(r).taskTime * (Math.pow(sum1, b) - Math.pow(sum2, b));
+	//	System.out.println("F: " + sum1);
+		//if (verbose){System.out.println(sum1); }
+		return sum1;
 	}
 	public static double b(Schedule s){
-		return .9;
+		double B = 1/(s.tasks.size()+20.);
+		//System.out.println("B: " + B);
+		return B;
 	}
 	public static double newEnergy2(Schedule s, int i){ //energy in this case only determines break times
-		return newEnergy(s, i);
+		Task t = s.tasks.get(i);
+		double total = Math.pow(Math.E,  (t.time2 * t.difficulty)/(s.energy * t.enjoyment*10));
+		total += 4;
+		total = 1/total;
+		total += .8;
+		total = Math.pow(s.energy, total);
+		return total;
 	}
 public static double T(Schedule s){
-		return 100;
+		return 200;
 	}
-	public static double taskTime2(Schedule s, int r, int breakIndex){
+	public static double taskTime2(Schedule s, int r, int breakIndex, boolean verbose){
 		double total =  1;
 		for (int i = 0; i < r; i++){
 			total += s.tasks.get(i).taskTime;
 		}
 		total = Math.pow(total, b);
 		total *= s.tasks.get(r).taskTime;
+		/*if (verbose){
+		System.out.print("\t\t\t" + total);
+		}*/
 		for (int i = 0; i < breakIndex; i++){
-			total += F(s, i, r, s.breaks.get(i).time);
+			total += F(s, i, r, s.breaks.get(i).time, verbose);
 		}
+		//if (verbose){System.out.println(" & " + total);}
 		return total;
 	}
 	
 	public static void runSchedule2(Schedule schedule, boolean verbose){
+		//System.out.println("RUN SCHEDULE 2!");
 		if (verbose){System.out.println("\n\n");}
 			double newEnergy, newTime, totalTime;
 			newTime = 0;
 			newEnergy = schedule.energy;
+			double origEnergy = newEnergy;
 			totalTime = 0;
 			double timeDiff = toMinutes(schedule.stopTime) - toMinutes(schedule.startTime);
 			double curTime = toMinutes(schedule.startTime);
+			ArrayList<Break> allBreaks = new ArrayList<Break>();
+			for (Break b : schedule.breaks){
+				allBreaks.add(b);
+			}
 			int breakIndex = 0;
-			for (int i = 0; i < schedule.tasks.size() && totalTime < timeDiff; i++){
+			int i = 0;
+			for (;i < schedule.tasks.size() && totalTime < timeDiff; i++){
 			    if (breakIndex < schedule.breaks.size() && curTime >= toMinutes(schedule.breaks.get(breakIndex).startTime)){
-			    	if (verbose){
-			    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
-			    	}
+			    	if (allBreaks.contains(schedule.breaks.get(breakIndex))){
+				    	newEnergy = RankSchedule.breakEnergy(schedule, breakIndex);
+				    	newTime = schedule.breaks.get(breakIndex).time;
+				    	i--;
+				    	if (verbose){
+				    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
+				    	}
+			    	}		    	
 			    	breakIndex++;
-			    	i--;
+			    	
 			    }else{
-					newTime = RankSchedule.taskTime2(schedule, i, breakIndex);
+					newTime = RankSchedule.taskTime2(schedule, i, breakIndex, verbose);
 					newEnergy = RankSchedule.newEnergy2(schedule, i);
-					if (newEnergy <= 0){
-						Task t = new Task("Break", 0, 1, 20, 0);
-						//Task(String name, double difficulty, double enjoyment, double time, double var)
-						schedule.tasks.add(i, t);
-						newTime = RankSchedule.taskTime2(schedule, i, breakIndex); 
+					if (newEnergy <= .2 * origEnergy){
+						//if (verbose){System.out.println("\t\t ENERGY: " + newEnergy);}
+						Break b = new Break();
+						//b.name = "Break " + breakIndex;
+						b.name = "Computer-added Break";
+						b.time = 20;
+						//b.endTime = 20;
+						schedule.breaks.add(breakIndex, b);
+						newEnergy = RankSchedule.breakEnergy(schedule, breakIndex);
+				    	newTime = schedule.breaks.get(breakIndex).time;
+				    	if (verbose){
+				    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
+				    	}
+				    	breakIndex++;
+				    	i--;
+					}
+					else{
+						schedule.tasks.get(i).time2 = newTime;
+						if (verbose){
+							System.out.println(schedule.tasks.get(i).name + ": " + schedule.tasks.get(i).taskTime + 
+									" & " + schedule.tasks.get(i).time2);
 						}
-					schedule.tasks.get(i).time2 = newTime;
-					if (verbose){
-						System.out.println(schedule.tasks.get(i).name + ": " + schedule.tasks.get(i).taskTime);
+						newEnergy = RankSchedule.newEnergy2(schedule, i);
 					}
 			    }
-				schedule.energy = newEnergy;
+			    schedule.energy = newEnergy;
 				if (verbose){
 					System.out.println("\t" + schedule.energy);
 				}
@@ -74,22 +119,30 @@ public static double T(Schedule s){
 				curTime += totalTime;
 		}
 			schedule.utility = RankSchedule.utility2(schedule);
+			if (i < schedule.tasks.size()){
+				schedule.utility = Integer.MIN_VALUE + 10;
+			}
 			if (verbose){
 				System.out.println("Utility: " + schedule.utility);
 			}
+			schedule.energy = origEnergy;
+			schedule.breaks = allBreaks;
 		}
 	public static void runSchedule2(Schedule s){
 		runSchedule2(s, false);
 	}
 	public static Schedule optimizeSchedule2(Schedule s){
-    	T = T(s);
-    	b = b(s);
     	//return simAnneal2(s, 100);
     	ArrayList<Schedule> allSchedules = new ArrayList<Schedule>();
     	allSchedules.add(s);
     	for (int i = 0; i < 100; i++){
     		Schedule temp = randomizeTasks(s);
+    		/*for (Task t : temp.tasks){
+    			System.out.print(t.name + " ");
+    		}
+    		System.out.println();*/
     		allSchedules.add(hillClimber2(temp, 100));
+    		//System.out.println(allSchedules.get(i).utility);
     	}
     	int maxdex = 0;
     	for (int i = 0; i < 100; i++){
@@ -105,11 +158,13 @@ public static double T(Schedule s){
 		for (int i = 0; i < s.tasks.size(); i++){
 			indices.add(i);
 		}
+		total.tasks.clear();
 		int temp = 0;
-		for (int i = 0; i < total.tasks.size(); i++){
+		for (int i = 0; i < s.tasks.size(); i++){
 			temp = indices.remove((int)(Math.random()*indices.size()));
-			total.tasks.set(temp, s.tasks.get(temp).makeCopy());
+			total.tasks.add(s.tasks.get(temp).makeCopy());
 		}
+		//System.out.println();
 		return total;
 	}
 	public static Schedule hillClimber2(Schedule s, int index){
@@ -118,6 +173,14 @@ public static double T(Schedule s){
 		}
 		index--;
 		Schedule mutant = mutate(s);
+		runSchedule2(mutant);
+		/*if (index < 3){
+			for (Task t : mutant.tasks){
+				System.out.print(t.name + " ");
+			}
+			System.out.println();
+		}*/
+		//System.out.println(mutant.utility);
 		if (mutant.utility > s.utility){
 			return hillClimber2(mutant, index);
 		}
@@ -157,7 +220,7 @@ public static double T(Schedule s){
         for (int i = 0; i < s.tasks.size(); i++){
             total += A * s.tasks.get(i).enjoyment * s.tasks.get(i).time2;
         }
-        total *= Math.sqrt(s.energy);
+       // total *= Math.sqrt(s.energy);
         total -= B * (s.stopTime - s.idealStop) * s.endTask.enjoyment;
         return total;
     }
@@ -248,7 +311,7 @@ public static double T(Schedule s){
 
     public static double breakEnergy(Schedule schedule, int i){
     	Break b = schedule.breaks.get(i);
-    	return schedule.energy + .1 * b.time;  
+    	return schedule.energy + 3*b.time/T;  
     }
 
     public static double taskBreakEnergy(Schedule schedule, int i){
