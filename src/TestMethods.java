@@ -59,7 +59,7 @@ public class TestMethods {
 					return;
 				}
 				subjects.add(new Subject(subjName,Double.parseDouble(tokens[tokens.length-2])/100, Double.parseDouble(tokens[tokens.length-1])/100));
-				System.out.println(subjName);
+			//	System.out.println(subjName);
 			}else if (tokens[0].startsWith("\"'")){
 				tokens[0] = tokens[0].substring(1);
 				String subjName = subjName(tokens);
@@ -91,7 +91,7 @@ public class TestMethods {
 					return;
 				}
 				else{
-					System.out.println(subjName);
+					//System.out.println(subjName);
 					schedule.tasks.add(new Task(subjName + " " + name2, subjects.get(subjIndex), t, v));
 				}
 			}else if (tokens[0].equals("break")){
