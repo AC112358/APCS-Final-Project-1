@@ -2,38 +2,98 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class Survey {
+public class Survey extends JFrame{
 
     private JFrame f;
     private JPanel p1;
     private JPanel p2;
     private JPanel survey;
+    private JScrollPane sp;
     
     public JTable sTable;
+    private String[] colNames;
+    public Object[][] data;
+    
     private JButton addB;
     private JLabel addL;
 
+    public Survey()
+        {
+	    gui();
+        }
+    //===================================
+
+    public void gui()
+    {
+	//frame setup
+	f = new JFrame("Survey");
+	f.setVisible(true);
+	f.setSize(800,400); //800 width by 400 height
+	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	//Survey Label Panel
+	p1 = new JPanel();
+	p1.setBackground(Color.YELLOW);
+	
+	addL = new JLabel("SURVEY");
+
+	//Button Panel
+	p2 = new JPanel();
+	p2.setBackground(Color.BLUE);
+	
+	addB = new JButton("ADD");
+
+	//survey table
+	survey = new JPanel();
+	/*
+	//layout of survey table (rows, cols, h_gap, y_gap)
+	panel.setLayout(new GridLayouts(7, 3, 0, 0));
+	*/
+    //--------------------------------------------
+	//originally forgot to put this in the constructor used method to initialize
+    //follows the JTable Constructor (Object[][] rowData, Object[] coldata)
+    sTable = new JTable (data, colNames);
+    //add JTable to a container
+    sp = new JScrollPane(sTable);
+
     //array parts for sTable
-    private String[] colNames = ("Subject Name", "Difficulty(/100)", "Enjoyment(/100)");
-    object[][] data = {
+   colNames = new String[] {"Subject Name", "Difficulty(/100)", "Enjoyment(/100)"};
+   data = new String[][]{
 	{null, null, null},
 	{null, null, null},
 	{null, null, null},
 	{null, null, null},
 	{null, null, null},
 	{null, null, null}
-    };
+    };   
+   //---------------------------------------------------------------------			
 
-    //follows the JTable Constructor (Object[][] rowData, Object[] coldata)
-    sTable = new JTable (data, colNames);
+	//gbc will be used in formatting out table for survey
+	GridBagConstraints gbc = new GridBagConstraints();
+	gbc.insets = new Insets(10,10,10,10);
+	
+	//adding components to Panel
+	p1.add(addL);
+	p2.add(addB);
+	survey.add(sp, BorderLayout.CENTER);
 
-    //add JTable to a container
-    JScrollPane sp = new JScrollPane(sTable);
-    sTable.setFillsViewportHeight(true);//allows fill entire pane
-    //add ScrollPane to center panel
-    survey.add(sp, BorderLayout.CENTER);
-    
 
+	//adding panels to frame
+	f.add(p1,BorderLayout.NORTH );
+	f.add(p2,BorderLayout.SOUTH );
+        f.getContentPane().add(survey);
+	f.pack();
+        f.setVisible(true);
+    }
+
+    public static void main(String[] args)
+    {
+	new Survey();
+
+    }
+}
+
+/*
     //instead of the mess below, I could just use JTable I realized
     
     /*
@@ -91,54 +151,4 @@ public class Survey {
     JTextField E6 = new JTextField(e6,30);   
     */
 
-    public Survey()
-    {
-	gui();
-    }
-
-    public void gui()
-    {
-	//frame setup
-	f = new JFrame("Survey");
-	f.setVisible(true);
-	f.setSize(800,400); //800 width by 400 height
-	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-	//Survey Label Panel
-	p1 = new JPanel();
-	p1.setBackground(Color.YELLOW);
-	
-	addL = new JLabel("SURVEY");
-
-	//Button Panel
-	p2 = new JPanel();
-	p2.setBackground(Color.BLUE);
-	
-	addB = new JButton("ADD");
-
-	//survey table
-	survey = new JPanel();
-	//layout of survey table (rows, cols, h_gap, y_gap)
-	panel.setLayout(new GridLayouts(7, 3, 0, 0));
-			
-
-	//gbc will be used in formatting out table for survey
-	GridBagConstraints gbc = new GridBagConstraints();
-	gbc.insets = new Insets(10,10,10,10);
-	
-	//adding components to Panel
-	p1.add(addL);
-	p2.add(addB);
-
-
-	//adding panels to frame
-	f.add(p1,BorderLayout.NORTH );
-	f.add(p2,BorderLayout.SOUTH );
-    }
-
-    public static void main(String[] args)
-    {
-	new Survey();
-
-    }
-}
+ */
