@@ -51,21 +51,14 @@ public class Survey extends JFrame{
 	*/
     //--------------------------------------------
 	//originally forgot to put this in the constructor used method to initialize
+     //array parts for sTable
+    colNames = new String[] {"Subject Name", "Difficulty(/100)", "Enjoyment(/100)"};
+    data = new String[6][3]; 
     //follows the JTable Constructor (Object[][] rowData, Object[] coldata)
     sTable = new JTable (data, colNames);
     //add JTable to a container
     sp = new JScrollPane(sTable);
-
-    //array parts for sTable
-   colNames = new String[] {"Subject Name", "Difficulty(/100)", "Enjoyment(/100)"};
-   data = new String[][]{
-	{null, null, null},
-	{null, null, null},
-	{null, null, null},
-	{null, null, null},
-	{null, null, null},
-	{null, null, null}
-    };   
+  
    //---------------------------------------------------------------------			
 
 	//gbc will be used in formatting out table for survey
@@ -81,7 +74,8 @@ public class Survey extends JFrame{
 	//adding panels to frame
 	f.add(p1,BorderLayout.NORTH );
 	f.add(p2,BorderLayout.SOUTH );
-        f.getContentPane().add(survey);
+        f.getContentPane();
+	f.add(survey);
 	f.pack();
         f.setVisible(true);
     }
@@ -145,4 +139,4 @@ public class Survey extends JFrame{
     JTextField E6 = new JTextField(e6,30);   
     */
 
- */
+ 
