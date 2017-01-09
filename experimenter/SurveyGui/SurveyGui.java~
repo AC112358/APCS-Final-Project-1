@@ -1,10 +1,13 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class GridBagLayoutDemo {
+public class SurveyGui{
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
+
+    private JPanel p1 = new JPanel();
+   
 
     public static void addComponentsToPane(Container pane) {
         if (RIGHT_TO_LEFT) {
@@ -39,7 +42,12 @@ public class GridBagLayoutDemo {
         gbc.gridy = 1;
         pane.add(button, gbc);
 
-	Table surveytab = new Table();
+	JTable surveyTable =  new JTable(new SurveyTable());
+	surveyTable.setAutoCreateRowSorter(true);
+	surveyTable.setShowGrid(false);//shows grid
+	surveyTable.setGridColor(Color.YELLOW);
+	surveyTable.setBackground(Color.CYAN);
+	    
 
         button = new JButton("ADD");
         gbc.ipady = 0;       //reset to default
@@ -67,8 +75,10 @@ public class GridBagLayoutDemo {
         addComponentsToPane(frame.getContentPane());
 
         //Display the window.
+	frame.setTitle("Survey doc");
 	frame.setSize(600,200);
-        frame.pack();
+	frame.setLocationRelativeto(null);//center screen
+        //frame.pack();
         frame.setVisible(true);
     }
 
