@@ -2,7 +2,7 @@
  import java.util.*;
  import javax.swing.*;
  import java.applet.Applet;
- public class GridBagEx1 extends Applet {
+ public class SurveyGui extends Applet {
 
     private JPanel survey;
     private JScrollPane sp;
@@ -78,8 +78,8 @@ c);
 
      
      public static void main(String args[]) {
- 	   Frame f = new Frame("GridBag Layout Example");
- 	   GridBagEx1 ex1 = new GridBagEx1();
+ 	   Frame f = new Frame("SurveyDoc");
+ 	   SurveyGui ex1 = new SurveyGui();
  	   ex1.init();
  	   f.add("Center", ex1);
  	   f.pack();
