@@ -2,7 +2,7 @@
  import java.util.*;
  import javax.swing.*;
  import java.applet.Applet;
- public class Planner extends Applet {
+ public class PlannerGui extends Applet {
 
     private JPanel TaskList;
     private JScrollPane sp;
@@ -67,19 +67,21 @@
  	   c.gridheight = 2;
 
          makeLabel(
-		   "<html>HOW-TO-USE<br><br><br>*Enter Tasks, Estimated Time to Complete, and Time<br>Variability. Be Sure To Update.<br><br> *Time Variability (TV) means the range around the<br> estimated time.<br>==Ex: 30 min TV and 45 min Estimated Time to Complete<br> means time would take anywhere from <br> 15-75 min. <br><br>*Press Update to<br>commit changes<br><br>*Press Add to add a<br>subject(entire row)<br><br>*Be as Specific as Possible<br><br><html>",
+		   "<html>HOW-TO-USE<br><br><br>*Enter Tasks, Estimated Time to Complete, and Time<br>Variability. Be Sure To Update.<br><br> *Time Variability (TV) means the range around the<br> estimated time.<br>==Ex: 30 min TV and 45 min Estimated Time to Complete<br> means time would take anywhere from <br> 15-75 min. <br><br>*Press Update to commit changes<br><br>*Press Add to add a subject(entire row)<br><br>*Be as Specific as Possible<br><br><html>",
 gb,
 c);
-         c.weighty = 0.0;		   //reset to the default
+         c.weighty = 1.0;		   //reset to the default
  	   c.gridwidth = GridBagConstraints.REMAINDER; //end row
  	   c.gridheight = 1;		   //reset to the default
          makebutton("ADD TASK", gb, c);
          makebutton("UPDATE TASK", gb, c);
-         setSize(2000,800);
+     }
      
      //==============================================
      //Break Components and Overall Components
-     
+     public void initBreakList(){	    
+         GridBagLayout gb = new GridBagLayout();
+         GridBagConstraints c = new GridBagConstraints();
     //array parts for sTable
     colNames = new String[] {"Break name",
 			     "Break Time (Range)",
@@ -98,7 +100,7 @@ c);
  	   c.gridheight = 2;
 
          makeLabel(
-		   "<html>HOW-TO-USE<br><br><br>*Enter Name and Date<br><br>*Press Update to<br>commit changes<br><br>*Press Add to add a<br>subject(entire row)<br><br><br><html>",
+		   "<html>HOW-TO-USE<br><br><br>*Enter Breaks, Break Time(Range), and Time to<br> complete. Be sure to Update<br><br>*BreakTime(Range) means around what time is this<br>break going to Happen. <br>Ex: Dinner will be 6:00pm to 8:00pm<br><br>*Ideal Stop Time and Time Interval refers to your entire<br>schuedule, not just breaks.<br><br> *Please Specify in Military Time. <br><br>*Press Update to commit changes<br><br>*Press Add to add a subject(entire row)<br><br>*Be as Specific as Possible<br><br><html>",
 gb,
 c);
          c.weighty = 0.0;		   //reset to the default
@@ -108,16 +110,26 @@ c);
          makebutton("UPDATE BREAK", gb, c);
          setSize(2000,800);
      }
-
+	 
 
      
      public static void main(String args[]) {
  	   Frame f = new Frame("PlannerDoc-TaskList");
- 	   SurveyGui ex1 = new TaskList();
+ 	   PlannerGui ex1 = new PlannerGui();
  	   ex1.init();
  	   f.add("Center", ex1);
  	   f.pack();
  	   f.setSize(f.getPreferredSize());
  	   f.show();
+
+	   Frame f2 = new Frame("PlannerDoc-BreakList");
+	   Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+f2.setLocation(dim.width/2- f2.getSize().width/2, dim.height/2- f2.getSize().height/2);
+	   PlannerGui ex2 = new PlannerGui();
+ 	   ex2.init();
+ 	   f2.add("Center", ex2);
+ 	   f2.pack();
+ 	   f2.setSize(f.getPreferredSize());
+ 	   f2.show();
      }
  }
