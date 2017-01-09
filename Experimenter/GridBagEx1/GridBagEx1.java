@@ -74,6 +74,9 @@ c);
          makebutton("UPDATE", gb, c);
          setSize(2000,800);
      }
+
+
+     
      public static void main(String args[]) {
  	   Frame f = new Frame("GridBag Layout Example");
  	   GridBagEx1 ex1 = new GridBagEx1();
