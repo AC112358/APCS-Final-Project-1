@@ -238,9 +238,9 @@ public static double T(Schedule s){
     	return simAnneal2(s, newTemp);
     }
     public static double utility2(Schedule s){
-        if (s.energy < 0){
+	/* if (s.energy < 0){
         	return -1;
-        }
+		}*/
         double A = 1;
         double B = 1;
         double total = 0;
@@ -248,7 +248,7 @@ public static double T(Schedule s){
             total += A * s.tasks.get(i).enjoyment * s.tasks.get(i).time2;
         }
        // total *= Math.sqrt(s.energy);
-        total -= B * (s.stopTime - s.idealStop) * s.endTask.enjoyment;
+        total -= B * Math.pow((s.stopTime - s.idealStop), 2) * s.endTask.enjoyment;
         return total;
     }
 	

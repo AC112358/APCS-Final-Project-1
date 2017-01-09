@@ -99,7 +99,12 @@ public class TestMethods {
 				int index = tokens.length;
 				schedule.breaks.add(new Break(breakName, Double.parseDouble(tokens[index-3]), 
 						Double.parseDouble(tokens[index-2]), Double.parseDouble(tokens[index-1])));
-			}else{
+			}else if (tokens[0].equals("endtask")){
+				String endName = subjName(tokens, 1);
+				if (endName == null){endName = "";}
+				schedule.endTask = new Task(endName, Double.parseDouble(tokens[tokens.length-2])/100, 
+							    Double.parseDouble(tokens[tokens.length-1])/100, 0, 0);
+			    }else{
 				return;
 			}
 			RankSchedule.T = RankSchedule.T(schedule);

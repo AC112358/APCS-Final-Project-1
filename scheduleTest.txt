@@ -9,3 +9,5 @@
 
 break 'eat dinner' 1700 1730 45
 break 'take a shower' 1600 1800 20
+
+endtask 'go to sleep!' 0 100

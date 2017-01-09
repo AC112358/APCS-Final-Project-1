@@ -96,7 +96,20 @@ public class ScheduleFilter {
 					return "Start time must be before end time and maximum time is 24:59.9999";
 				}
 				schedule.breaks.add(new Break(breakName, start, end, Double.parseDouble(tokens[index-1])));
-			}else{
+			}else if(tokens[0].equals("endtask")){
+				if (tokens.length < 4){
+				    return "Not enough information for end task to be made";
+				}
+				String endName = TestMethods.subjName(tokens, 1); //can be blank it doesn't matter
+				if (endName == null){endName = "";}
+				message = "End task difficulty & enjoyment must be numbers";
+				double d = Double.parseDouble(tokens[tokens.length-2])/100;
+				double e = Double.parseDouble(tokens[tokens.length-1])/100;
+				if (d <= 0 || d > 1 || e <= 0 || e > 1){
+					return "End task difficulty & enjoyment must be between 0 & 100, not including 0";
+				}
+				schedule.endTask = new Task(endName, d, e, 0, 0);
+			    }else{
 				return "Text file not formatted properly, could not be processed";
 			}
 			RankSchedule.T = RankSchedule.T(schedule);
