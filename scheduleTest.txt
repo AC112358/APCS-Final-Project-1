@@ -1,0 +1,14 @@
+100 1600 2400 2300
+'precalc' 80 80
+'history' 80 30
+'drafting' 40 10
+
+"'precalc' check email" 90 60
+"'history' 14.3 cornell notes" 60 10
+"'drafting' autocad" 90 30
+"'history' project" 90 50
+
+break 'eat dinner' 1700 1730 45
+break 'take a shower' 1600 1800 20
+
+endtask 'go to sleep!' 0.1 100
