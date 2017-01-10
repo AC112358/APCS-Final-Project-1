@@ -4,12 +4,14 @@ public class Schedule implements Comparable<Schedule>{
 	ArrayList<Task> tasks = new ArrayList<Task>();
 	double energy, utility;
 	double idealStop, startTime, stopTime;
+	double actualStop;
 	Task endTask;
 	ArrayList<Break> breaks = new ArrayList<Break>();
 	public Schedule(double e, double start, double stop){
 		energy = e;
 		idealStop = stop;
 		startTime = start;
+		actualStop = stop;
 	}
 	public Schedule(){
 		energy = 100;

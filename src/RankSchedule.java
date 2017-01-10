@@ -73,7 +73,7 @@ public static double T(Schedule s){
 			}
 			int breakIndex = 0;
 			int i = 0;
-			for (;i < schedule.tasks.size() && totalTime < timeDiff; i++){
+			for (;i < schedule.tasks.size(); i++){
 			    if (breakIndex < schedule.breaks.size() && curTime >= toMinutes(schedule.breaks.get(breakIndex).startTime)){
 			    	if (allBreaks.contains(schedule.breaks.get(breakIndex))){
 				    	newEnergy = RankSchedule.breakEnergy(schedule, breakIndex);
@@ -125,12 +125,14 @@ public static double T(Schedule s){
 				curTime += newTime;
 				output += timeString(curTime) + ": " + toDo;
 		}
+			schedule.actualStop = curTime;
 			schedule.utility = RankSchedule.utility2(schedule);
 			if (i < schedule.tasks.size()){
 				schedule.utility = Integer.MIN_VALUE + 10;
 			}
 			if (verbose){
 				System.out.println("Utility: " + schedule.utility);
+				System.out.println("End time: " + timeString(schedule.actualStop));
 			}
 			schedule.energy = origEnergy;
 			schedule.breaks = allBreaks;
@@ -138,12 +140,13 @@ public static double T(Schedule s){
 		}
 	
 	public static String timeString(double time){
-		time %= 2400;
+		time %= 1440;
 		int min = (int)(time - (int)(time/60) * 60);
 		int hr = (int)(time/60)*100;
 		int newTime = hr + min;
 		String mins =  String.format("%02d", ((int)(newTime % 100)));	
 		//System.out.println(newTime/1000);
+		//System.out.println(hr + " " + min);
 		if (newTime / 100 == 12){
 			return "" + 12 + ":" + mins + "PM";
 		}
@@ -248,7 +251,8 @@ public static double T(Schedule s){
             total += A * s.tasks.get(i).enjoyment * s.tasks.get(i).time2;
         }
        // total *= Math.sqrt(s.energy);
-        total -= B * Math.pow((s.stopTime - s.idealStop), 2) * s.endTask.enjoyment;
+        //System.out.println(B * ((s.stopTime-s.idealStop)/Math.abs(s.stopTime-s.idealStop))*Math.pow((s.stopTime - s.idealStop), 2) * s.endTask.enjoyment);
+        total -= B * ((s.actualStop-s.idealStop)/Math.abs(s.actualStop-s.idealStop))*Math.pow((s.actualStop - s.idealStop), 2) * s.endTask.enjoyment;
         return total;
     }
 	

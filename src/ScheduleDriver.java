@@ -50,6 +50,7 @@ public class ScheduleDriver {
 				out.println(line);
 			}
 			//	System.out.println(optimum.endTask);
+			//System.out.println(RankSchedule.timeString(1441));
 			out.close();
 		}catch(Exception e){
 			System.exit(0);
