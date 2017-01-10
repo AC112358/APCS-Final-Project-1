@@ -252,7 +252,9 @@ public static double T(Schedule s){
         }
        // total *= Math.sqrt(s.energy);
         //System.out.println(B * ((s.stopTime-s.idealStop)/Math.abs(s.stopTime-s.idealStop))*Math.pow((s.stopTime - s.idealStop), 2) * s.endTask.enjoyment);
-        total -= B * ((s.actualStop-s.idealStop)/Math.abs(s.actualStop-s.idealStop))*Math.pow((s.actualStop - s.idealStop), 2) * s.endTask.enjoyment;
+        if (s.actualStop != s.idealStop){
+        	total -= B * ((s.actualStop-s.idealStop)/Math.abs(s.actualStop-s.idealStop))*Math.pow((s.actualStop - s.idealStop), 2) * s.endTask.enjoyment;
+        }
         return total;
     }
 	
