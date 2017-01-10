@@ -7,3 +7,4 @@ Subject name or task name is blank - should be handled by GUI
 Breaks occur as close to the starting time as possible (insert once current time >= starting time) - so it's possible to have the break much later
  - But what if you want to go to an event at a certain time? No support for that right now, user would have to manually make a new schedule by pressing "Update" again or something
  Make sure everything inputted is > 0!!
+"Computer-added Break" is not an allowed phrase for the break inputted
