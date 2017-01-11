@@ -1,0 +1,76 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class TabPanes extends JPanel
+{
+    public TabbedPane() {
+
+	setTitle("Schedule Planner Info");
+	JTabbedPane spi = new JTabbedPane();
+	getContentPane().add(spi);//adds tabbedpane to contentpane;
+
+        //set up SplitPane settings
+	JSplitPane p = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				      t,b);
+	p.setOneTouchExpandable(true);
+        p.setDividerLocation(750);
+	p.setPreferredSize(new Dimension(1500, 800));
+
+	//settings for components of p
+	JScrollPane t = new JScollPane();
+	JScrollPane b = new JScollPane();
+
+	Dimension minSize = new Dimension(700,800);
+	t.setMinimumSize(minimumSize);
+	b.setMinimumSize(minimumSize);
+
+        JScrollPane s = new JScrollPane();
+	
+
+	JLabel sp = new JLabel();
+	sp.setText("Planner");
+	JLabel st = new JLabel();
+	sp.setText("Task Lists");
+	JLabel sb = new JLabel();
+	sp.setText("Break Lists");
+
+	//Adding Components
+	t.add(st);
+	b.add(sb);
+    }
+
+	//gets
+	public JTabbedPane getTabbedPane()
+	{
+        return spi
+        }
+    
+	
+
+	public static void createAndShowGui (String[] args){
+
+	    JFrame f = new JFrame("Schedule Planner Doc");
+	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    TabPanes tp = new TabPanes();
+	    contentPane.add(tp.getTabbedPane(), BorderLayout.CENTER);
+	    f.getContentPane().add(tp.getTabbedPane());
+
+	    //Display
+	    Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+	    int xcor = (int) ((d.getWidth() - f.getWidth()) / 2);
+	    int ycor = (int) ((d.getHeight() - f.getHeight()) / 2);
+	    f.setLocation(x, y);
+	    f.pack();
+	    f.setVisible(true);
+	}
+
+	public static void main (String[] args){
+	    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+	    }
+
+    }
+	
