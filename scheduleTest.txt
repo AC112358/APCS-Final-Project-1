@@ -3,10 +3,9 @@
 'history' 80 30
 'drafting homework' 40 10
 
-"'precalc' hw" 90 60
-"'history' 14.3 cornell notes" 60 10
-"'drafting homework' autocad" 90 30
-"'history' project" 90 50
+"'precalc' hw" 50 0
+"'history' 14.3 cornell notes" 40 0
+"'drafting homework' autocad" 60 0
 
 break 'eat dinner' 1700 1730 30
 break 'take a shower' 1600 1800 20

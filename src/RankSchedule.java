@@ -22,7 +22,7 @@ public class RankSchedule {
 		return sum1;
 	}
 	public static double b(Schedule s){
-		double B = 1/(s.tasks.size()+20.);
+		double B = 0.054;
 		//System.out.println("B: " + B);
 		return B;
 	}
