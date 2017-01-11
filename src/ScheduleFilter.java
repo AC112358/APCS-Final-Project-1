@@ -28,6 +28,9 @@ public class ScheduleFilter {
 			if (schedule.stopTime >= 2500){
 				return "Stop time must be before 24:5999...";
 			}
+			if (schedule.energy > 100 || schedule.energy <= 0){
+				return "Energy must be between 0 & 100, not including 0";
+			}
 		}catch(Exception e){
 			return message;
 		}
@@ -95,7 +98,11 @@ public class ScheduleFilter {
 				if (start >= end || end >= 2500){
 					return "Start time must be before end time and maximum time is 24:59.9999";
 				}
-				schedule.breaks.add(new Break(breakName, start, end, Double.parseDouble(tokens[index-1])));
+				double totalTime = Double.parseDouble(tokens[index-1]);
+				if (totalTime < 0){
+					return "Time for break must be >= 0";
+				}
+				schedule.breaks.add(new Break(breakName, start, end, totalTime));
 			}else if(tokens[0].equals("endtask")){
 				if (tokens.length < 4){
 				    return "Not enough information for end task to be made";

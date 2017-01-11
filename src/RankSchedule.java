@@ -73,20 +73,26 @@ public static double T(Schedule s){
 			}
 			int breakIndex = 0;
 			int i = 0;
+			boolean breakAdded = false;
 			for (;i < schedule.tasks.size(); i++){
+				breakAdded = false;
 			    if (breakIndex < schedule.breaks.size() && curTime >= toMinutes(schedule.breaks.get(breakIndex).startTime)){
-			    	if (allBreaks.contains(schedule.breaks.get(breakIndex))){
-				    	newEnergy = RankSchedule.breakEnergy(schedule, breakIndex);
-				    	newTime = schedule.breaks.get(breakIndex).time;
-				    	i--;
-				    	if (verbose){
-				    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
-				    	}
-				    	toDo = schedule.breaks.get(breakIndex).name;
-			    	}		    	
-			    	breakIndex++;
-			    	
-			    }else{
+			    	if (curTime + toMinutes(schedule.tasks.get(i).taskTime) >= toMinutes(schedule.breaks.get(breakIndex).endTime) ||
+			    			Math.random() > 0.5){
+				    	if (allBreaks.contains(schedule.breaks.get(breakIndex))){
+				    		breakAdded = true;
+					    	newEnergy = RankSchedule.breakEnergy(schedule, breakIndex);
+					    	newTime = schedule.breaks.get(breakIndex).time;
+					    	i--;
+					    	if (verbose){
+					    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);
+					    	}
+					    	toDo = schedule.breaks.get(breakIndex).name;
+				    	}		    	
+				    	breakIndex++;
+			    	}
+			    }
+			    if (!breakAdded){
 					newTime = RankSchedule.taskTime2(schedule, i, breakIndex, verbose);
 					newEnergy = RankSchedule.newEnergy2(schedule, i);
 					if (newEnergy <= .1 * origEnergy){
@@ -127,7 +133,7 @@ public static double T(Schedule s){
 		}
 			schedule.actualStop = curTime;
 			schedule.utility = RankSchedule.utility2(schedule);
-			if (i < schedule.tasks.size()){
+			if (i < schedule.tasks.size() || breakIndex < schedule.breaks.size()){
 				schedule.utility = Integer.MIN_VALUE + 10;
 			}
 			if (verbose){
