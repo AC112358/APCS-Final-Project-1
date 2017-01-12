@@ -8,9 +8,12 @@ public class Break implements Comparable<Break>{
 		time = t;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		if (toMinutes(endTime) - toMinutes(startTime) < time){
-			time = toMinutes(endTime) - toMinutes(startTime);
+		if (time < 0){
+			time = 0;
 		}
+		/*if (toMinutes(endTime) - toMinutes(startTime) < time){
+			time = toMinutes(endTime) - toMinutes(startTime);
+		}*/
 	}
 	public Break(){
 		name = "";

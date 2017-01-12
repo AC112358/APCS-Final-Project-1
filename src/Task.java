@@ -39,10 +39,10 @@ public class Task {
 	
 	public double normalTime(){
 		double total = (enjoyment/difficulty);
-		total += .5;
-		total = 1/total + .2;
+		total += 2;
+		total = 1/total + .7;
 		//System.out.println(name + ": " + total);
-		total = total*timeVar + eTime; 
+		total = total*(timeVar + eTime);
 		return total;
 	}
 }

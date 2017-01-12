@@ -14,6 +14,20 @@ public class ScheduleDriver {
 			//PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("namenum.out")));
 			StringTokenizer st = new StringTokenizer(b.readLine());
 			TestMethods.schedule = new Schedule();
+			String firstLine = "";
+			while (st.hasMoreTokens()){
+				firstLine += " " + st.nextToken();
+			}
+			firstLine = firstLine.substring(1);
+			b.close();
+			boolean badInput = false;
+			String msg = ScheduleFilter.filterLine1(firstLine);
+			if (!msg.equals("")){
+				System.out.println(msg);
+				badInput = true;
+			}
+			b = new BufferedReader(new FileReader("scheduleTest.txt"));
+			st = new StringTokenizer(b.readLine());
 			TestMethods.schedule.energy = Double.parseDouble(st.nextToken());
 			TestMethods.schedule.startTime = Double.parseDouble(st.nextToken());
 			TestMethods.schedule.stopTime = Double.parseDouble(st.nextToken());
@@ -29,8 +43,14 @@ public class ScheduleDriver {
 				    temp += st.nextToken().toLowerCase() + " ";
 				}
 				if (temp.length() > 0){
-				    System.out.println(ScheduleFilter.filterLine(temp.substring(0, temp.length()-1)));
-					TestMethods.processText(temp.substring(0, temp.length()-1));		
+				    msg = ScheduleFilter.filterLine(temp.substring(0, temp.length()-1));
+				    if (!msg.equals("")){
+				    	System.out.println(msg);
+				    	badInput = true;
+				    }
+				    if (!badInput){
+				    	TestMethods.processText(temp.substring(0, temp.length()-1));
+				    }
 				}
 				String newLine = b.readLine();
 				if (newLine == null){
@@ -40,18 +60,21 @@ public class ScheduleDriver {
 				}
 			}
 			b.close();
-			//	TestMethods.schedule.endTask = new Task("sleep", 0, 1, 0, 0);
-			Collections.sort(TestMethods.schedule.breaks);
-			PrintWriter out = new PrintWriter(new FileWriter(new File("schedule.txt")));
-			Schedule optimum = RankSchedule.optimizeSchedule2(TestMethods.schedule);
-			String total = RankSchedule.runSchedule2(optimum, false);
-			String[] lines = total.split("\n");
-			for (String line : lines){
-				out.println(line);
+			if (!badInput){
+				//	TestMethods.schedule.endTask = new Task("sleep", 0, 1, 0, 0);
+				Collections.sort(TestMethods.schedule.breaks);
+				PrintWriter out = new PrintWriter(new FileWriter(new File("schedule.txt")));
+				Schedule optimum = RankSchedule.optimizeSchedule2(TestMethods.schedule);
+				String total = RankSchedule.runSchedule2(optimum);
+				String[] lines = total.split("\n");
+				for (String line : lines){
+					out.println(line);
+				}
+				//	System.out.println(optimum.endTask);
+				//System.out.println(RankSchedule.timeString(1441));
+				out.close();
+				System.out.println(total);
 			}
-			//	System.out.println(optimum.endTask);
-			//System.out.println(RankSchedule.timeString(1441));
-			out.close();
 		}catch(Exception e){
 			System.exit(0);
 		}
