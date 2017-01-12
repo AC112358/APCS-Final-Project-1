@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RankSchedule {
 	static double T = 1;
@@ -74,11 +75,12 @@ public static double T(Schedule s){
 			int breakIndex = 0;
 			int i = 0;
 			boolean breakAdded = false;
+			Random rand = new Random(schedule.seed);
 			for (;i < schedule.tasks.size(); i++){
 				breakAdded = false;
 			    if (breakIndex < schedule.breaks.size() && curTime >= toMinutes(schedule.breaks.get(breakIndex).startTime)){
 			    	if (curTime + toMinutes(schedule.tasks.get(i).taskTime) >= toMinutes(schedule.breaks.get(breakIndex).endTime) ||
-			    			Math.random() > 0.5){
+			    			rand.nextDouble() > 0.5){
 				    	if (allBreaks.contains(schedule.breaks.get(breakIndex))){
 				    		breakAdded = true;
 					    	newEnergy = RankSchedule.breakEnergy(schedule, breakIndex);
@@ -164,8 +166,8 @@ public static double T(Schedule s){
 		}
 		return "" + newTime/100 + ":" + mins + "AM";
 	}
-	public static void runSchedule2(Schedule s){
-		runSchedule2(s, false);
+	public static String runSchedule2(Schedule s){
+		return runSchedule2(s, false);
 	}
 	public static Schedule optimizeSchedule2(Schedule s){
     	//return simAnneal2(s, 100);
@@ -209,7 +211,7 @@ public static double T(Schedule s){
 		}
 		index--;
 		Schedule mutant = mutate(s);
-		runSchedule2(mutant);
+		runSchedule2(mutant, false);
 		/*if (index < 3){
 			for (Task t : mutant.tasks){
 				System.out.print(t.name + " ");
@@ -228,7 +230,7 @@ public static double T(Schedule s){
     		return s;
     	}
     	Schedule mutant = mutate(s);
-    	runSchedule2(mutant, false);
+    	runSchedule2(mutant);
     	//System.out.println(mutant.energy);
     	//System.out.println();
     	mutant.utility = utility2(mutant);
@@ -318,11 +320,15 @@ public static double T(Schedule s){
    
 
     public static Schedule mutate(Schedule schedule){
-    	int firstIndex = (int)(Math.random()*(schedule.tasks.size()-1));
+    	int firstIndex = (int)(Math.random()*(schedule.tasks.size()));
     	Schedule copy = schedule.makeCopy();
-    	Task tempTask = copy.tasks.get(firstIndex);
-    	copy.tasks.set(firstIndex, copy.tasks.get(firstIndex+1));
-    	copy.tasks.set(firstIndex+1, tempTask);
+    	if (firstIndex < schedule.tasks.size() - 1){
+	    	Task tempTask = copy.tasks.get(firstIndex);
+	    	copy.tasks.set(firstIndex, copy.tasks.get(firstIndex+1));
+	    	copy.tasks.set(firstIndex+1, tempTask);
+    	}else{
+    		copy.seed = (int)(Math.random()*Integer.MAX_VALUE);
+    	}
     	return copy;
     }
     public static Schedule simAnneal(Schedule s, int temp){

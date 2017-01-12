@@ -6,6 +6,7 @@ public class Schedule implements Comparable<Schedule>{
 	double idealStop, startTime, stopTime;
 	double actualStop;
 	Task endTask;
+	int seed = (int)(Math.random()*Integer.MAX_VALUE);
 	ArrayList<Break> breaks = new ArrayList<Break>();
 	public Schedule(double e, double start, double stop){
 		energy = e;
@@ -42,6 +43,7 @@ public class Schedule implements Comparable<Schedule>{
 		for (int i = 0; i < breaks.size(); i++){
 			copy.breaks.add(breaks.get(i).makeCopy());
 		}
+		copy.seed = seed;
 		return copy;
 	}
 	public int compareTo(Schedule other){

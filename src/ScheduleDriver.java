@@ -65,7 +65,7 @@ public class ScheduleDriver {
 				Collections.sort(TestMethods.schedule.breaks);
 				PrintWriter out = new PrintWriter(new FileWriter(new File("schedule.txt")));
 				Schedule optimum = RankSchedule.optimizeSchedule2(TestMethods.schedule);
-				String total = RankSchedule.runSchedule2(optimum, false);
+				String total = RankSchedule.runSchedule2(optimum);
 				String[] lines = total.split("\n");
 				for (String line : lines){
 					out.println(line);

@@ -230,7 +230,7 @@ public class TestMethods {
 		System.out.println(RankSchedule.timeString(513));
 		System.out.println(RankSchedule.timeString(1708));*/
 		PrintWriter out = new PrintWriter(new FileWriter(new File("schedule.txt")));
-		String total = RankSchedule.runSchedule2(optimum, false);
+		String total = RankSchedule.runSchedule2(optimum);
 		String[] lines = total.split("\n");
 		for (String line : lines){
 			out.println(line);

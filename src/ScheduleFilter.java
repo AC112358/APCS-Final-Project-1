@@ -70,7 +70,7 @@ public class ScheduleFilter {
 					}
 					name2 = name2.substring(0, name2.length()-1);
 				}else{
-					return "Text file format invalid: \" needed at end";
+					return "Text file format invalid: \" needed at end or not enough input";
 				}
 				int subjIndex = -1;
 				for (int i = 0; i < subjects.size() && subjIndex == -1; i++){
