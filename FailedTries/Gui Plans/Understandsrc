@@ -1,0 +1,22 @@
+Subject
+  Enjoyment, Difficulty
+
+Task
+  Name, difficulty, enjoyment, eTime(expected Time), timeVar(time variation), taskTime
+
+Scheduele
+  Tasks Have To Do
+  In order of When to Do
+  Instance Variables
+    Energu, Utility(Enjoyment of entire scheduele), idealStop/startTime, Endtask
+
+Rankscheduele contain methods that works with Scheduele instances/Object
+  (Bunch of Static Methods) Computes...
+    Tasktime, EnergyLeft, Utility(enjoyment of scheduele)
+    
+TestMethods
+  procestext: convert text from GUI's output for use in processing as INPUT
+  permutations return all types of schedueles
+  
+
+  
