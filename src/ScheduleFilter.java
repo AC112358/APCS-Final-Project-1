@@ -25,8 +25,8 @@ public class ScheduleFilter {
 			if (schedule.startTime >= schedule.stopTime){
 				return "Start time must be before stop time";
 			}
-			if (schedule.stopTime >= 2500){
-				return "Stop time must be before 24:5999...";
+			if (schedule.stopTime >= 2400){
+				return "Stop time must be before 23:59 (11:59 PM)";
 			}
 			if (schedule.energy > 100 || schedule.energy <= 0){
 				return "Energy must be between 0 & 100, not including 0";

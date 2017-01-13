@@ -20,6 +20,9 @@ public class Utilities{
 	    double minute = Double.parseDouble(m);
 	    // System.out.println(hour +  " " + minute);
 	    amPm = timeStrings[1].substring(2);
+	    if (minute >= 60){
+		return "ERROR: Time invalid";
+	    }
 	    if (amPm.equals("AM")){
 		if (hour == 12){
 		    return "00" + m;
@@ -46,7 +49,13 @@ public class Utilities{
 	    return "ERROR: Time invalid";
 	}
     }
-    /* public static void main(String[] args){
-	System.out.println(makeMilitary("5:34 PM"));
-	}*/
+     public static void main(String[] args){
+	System.out.println(makeMilitary(args[0]));
+	String militTime = makeMilitary(args[0]);
+	if (!militTime.equals("ERROR: Time invalid")){
+	double totalTime = 60*Double.parseDouble(militTime.substring(militTime.length() - 2, militTime.length())) +
+	    Double.parseDouble(militTime.substring(0, militTime.length() - 2));
+    System.out.println(RankSchedule.timeString(totalTime));
+     }
+	}
 }
