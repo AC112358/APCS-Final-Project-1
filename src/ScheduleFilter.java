@@ -58,7 +58,7 @@ public class ScheduleFilter {
 				tokens[0] = tokens[0].substring(1);
 				String subjName = TestMethods.subjName(tokens);
 				if (subjName.equals("")){
-					return "Cannot have a blank task name";
+					return "Cannot have a blank task name " + line;
 				}
 				int index = tokens.length-3;
 				int start = TestMethods.subjIndex(tokens);

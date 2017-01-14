@@ -32,8 +32,10 @@ public class RankSchedule {
 		double total = Math.pow(Math.E,  (t.time2 * t.difficulty)/(s.energy * t.enjoyment*10));
 		total += 4;
 		total = 1/total;
-		total += .8;
-		total = Math.pow(s.energy, total);
+		//total += .8;
+		total += .65;
+		//total = Math.pow(s.energy, total);
+		total = s.energy*total;
 		return total;
 	}
 public static double T(Schedule s){
@@ -97,7 +99,7 @@ public static double T(Schedule s){
 			    if (!breakAdded){
 					newTime = RankSchedule.taskTime2(schedule, i, breakIndex, verbose);
 					newEnergy = RankSchedule.newEnergy2(schedule, i);
-					if (newEnergy <= .1 * origEnergy){
+					if (newEnergy <= .2 * origEnergy){
 						//if (verbose){System.out.println("\t\t ENERGY: " + newEnergy);}
 						Break b = new Break();
 						//b.name = "Break " + breakIndex;
@@ -105,7 +107,8 @@ public static double T(Schedule s){
 						b.time = 20;
 						//b.endTime = 20;
 						schedule.breaks.add(breakIndex, b);
-						newEnergy = RankSchedule.breakEnergy(schedule, breakIndex);
+						//newEnergy = RankSchedule.breakEnergy(schedule, breakIndex);
+						newEnergy += 20;
 				    	newTime = schedule.breaks.get(breakIndex).time;
 				    	if (verbose){
 				    		System.out.println(schedule.breaks.get(breakIndex).name + ": " + schedule.breaks.get(breakIndex).time);

@@ -60,11 +60,13 @@ public class ScheduleDriver {
 				}
 			}
 			b.close();
+			//System.out.println("got here");
 			if (!badInput){
 				//	TestMethods.schedule.endTask = new Task("sleep", 0, 1, 0, 0);
 				Collections.sort(TestMethods.schedule.breaks);
 				PrintWriter out = new PrintWriter(new FileWriter(new File("schedule.txt")));
 				Schedule optimum = RankSchedule.optimizeSchedule2(TestMethods.schedule);
+				//System.out.println(optimum);
 				String total = RankSchedule.runSchedule2(optimum);
 				String[] lines = total.split("\n");
 				for (String line : lines){
@@ -74,6 +76,9 @@ public class ScheduleDriver {
 				//System.out.println(RankSchedule.timeString(1441));
 				out.close();
 				System.out.println(total);
+				//System.out.println(optimum.energy);
+				//System.out.println(RankSchedule.runSchedule2(optimum, true));
+				//System.out.println(optimum.energy);
 			}
 		}catch(Exception e){
 			System.exit(0);
