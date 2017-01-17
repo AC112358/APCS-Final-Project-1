@@ -3,8 +3,8 @@ import java.awt.*;
 
 public class TabPanesTry extends JPanel
 {
-    //JFrame window = new JFrame();
-    JPanel window = new JPanel();
+
+    JSplitPane p = new JSplitPane();
     JTabbedPane spi = new JTabbedPane();
 
     
@@ -18,7 +18,6 @@ public class TabPanesTry extends JPanel
 
     
     JPanel bp = new JPanel();
-    JScrollPane b = new JScrollPane();
     String[] bColNames = new String[] {"Break name",
 				       "Break Time (Range)",
 				       "Time To Complete (min)"};
@@ -26,7 +25,6 @@ public class TabPanesTry extends JPanel
     JTable bt = new JTable(bData, bColNames);
 
     
-    JSplitPane p = new JSplitPane();
 
     //buttons
     JButton addt = new JButton("ADD TASK");
@@ -46,17 +44,17 @@ public class TabPanesTry extends JPanel
 	tp.setLayout(tLayout);
 
 	
-	bp.add(bt);
+	bp.add(new JScrollPane (bt));
 	bp.add(addb);
 	bp.add(updateb);
 	
-	tp.add(tt);
+	tp.add(new JScrollPane (tt));
 	tp.add(addt);
 	tp.add(updatet);
 
 	JSplitPane temp = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT);
-	temp.add(new JScrollPane(tt));
-	temp.add(new JScrollPane(bt));
+	temp.add(tp);
+	temp.add(bp);
 	p = temp;
 	//splitpane settings
 	p.setOneTouchExpandable(true);
