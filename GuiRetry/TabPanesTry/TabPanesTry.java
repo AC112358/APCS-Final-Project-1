@@ -3,6 +3,9 @@ import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.Writer;
 
 public class TabPanesTry extends JPanel 
 {
@@ -59,6 +62,9 @@ public class TabPanesTry extends JPanel
 
     JButton adds = new JButton("ADD SUBJECT (ROW)");
     JButton updates = new JButton("UPDATE SURVEY");
+
+    //
+    Writer output;
 
     public TabPanesTry() {
 
@@ -118,24 +124,52 @@ public class TabPanesTry extends JPanel
 		}
 	    } );
 
-	/*	updateb.addActionListener(new Action Listener() {
-		public void actionPerformed(ActionEvent e)
-		{
-		    bTable.addRow(new Object[] {});
-		}
-	    } );
-	updatet.addActionListener(new Action Listener() {
-		public void actionPerformed(ActionEvent e)
-		{
-		    bTable.addRow(new Object[] {});
-		}
-	    } );
-	updates.addActionListener();(new Action Listener() {
-		public void actionPerformed(ActionEvent e)
-		{
-		    bTable.addRow(new Object[] {});
-		}
-		} );  */
+	updateb.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent evt) {
+
+
+            PrintWriter os = new PrintWriter();
+
+            for (int row = 0; row < bt.getRowCount(); row++) {
+		    os.println("'" + bt.getValue(row,0) + "' "
+			       + bt.getValue(row, 1) + " "
+			       + bt.getValue(row, 2));
+                    os.println("");
+            }
+            os.close();
+
+	    }
+		    });
+	         
+	updatet.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+
+
+            PrintWriter os = new PrintWriter(file);
+
+            for (int row = 0; row < tt.getRowCount(); row++) {
+		    os.println("'" + tt.getValue(row,0) + "' "
+			       + tt.getValue(row, 1) + " "
+			       + tt.getValue(row, 2));
+                    os.println("");
+            }
+            os.close();
+
+        } 
+		    });
+	updates.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent evt) {
+
+		for (int row = 0; row < st.getRowCount(); row++){
+		    for (int col = 0; col < st.getColCount(); col++){
+			String[][] temp = sData[row][col];
+		    os.println("'" + st.getValue(row,0) + "' "
+			       + st.getValue(row, 1) + " "
+			       + st.getValue(row, 2));
+                    os.println("");
+
+        } 
+	    }); 
 	
 
 	//survey pane settings
@@ -181,9 +215,33 @@ public class TabPanesTry extends JPanel
 	if(e.getSource() == ubdates)
 	    {
 		
-	    } */
+	    } 
+    private void saveResultsActionPerformed(ActionEvent evt) {
 
-    
+
+    int returnVal = fileChooser.showSaveDialog(NewJFrame.this);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        try {
+            File file = fileChooser.getSelectedFile();
+            PrintWriter os = new PrintWriter(file);
+
+            for (int row = 0; row < tt.getRowCount(); row++) {
+		    os.println("'" + tt.getValue(row,0) + "' "
+			       + tt.getValue(row, 1) + " "
+			       + tt.getValue(row, 2));
+                    os.println("");
+            }
+            os.close();
+            System.out.println("Done!");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    } */
+
+    output = new BufferedWriter(new FileWriter(scheduleTest.txt, true));
+    output.append;
     
 	
 
