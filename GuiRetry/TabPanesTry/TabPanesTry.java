@@ -9,20 +9,28 @@ public class TabPanesTry extends JPanel
 
     
     JPanel tp = new JPanel();
-    JScrollPane t = new JScrollPane();
     String[] tColNames = new String[] {"Task (Subjectname Taskname)",
 				       "Estimated Time to Complete (min)",
 				       "Time Variability (min)"};
     String[][] tData = new String[6][3];
     JTable tt = new JTable(tData, tColNames);
 
-    
+    //===========
     JPanel bp = new JPanel();
     String[] bColNames = new String[] {"Break name",
 				       "Break Time (Range)",
 				       "Time To Complete (min)"};
     String[][] bData = new String[6][3];
     JTable bt = new JTable(bData, bColNames);
+    //============
+    JPanel sp = new JPanel();
+    String[] sColNames = new String[] {"Subject Name",
+				       "Difficulty (/100)",
+				       "Enjoyment (/100)"};
+    String[][] sData = new String[6][3];
+    JTable st = new JTable(sData, sColNames);
+
+    
 
     
 
@@ -32,6 +40,9 @@ public class TabPanesTry extends JPanel
 
     JButton updatet = new JButton("UPDATE TASK");
     JButton updateb = new JButton("UPDATE BREAK");
+
+    JButton adds = new JButton("ADD SUBJECT (ROW)");
+    JButton updates = new JButton("UPDATE SURVEY");
 
     public TabPanesTry() {
 
@@ -43,6 +54,7 @@ public class TabPanesTry extends JPanel
 	BoxLayout tLayout = new BoxLayout(tp, BoxLayout.Y_AXIS);
 	tp.setLayout(tLayout);
 
+        sp.setBorder(BorderFactory.createTitledBorder("Survey Form"));
 	
 	bp.add(new JScrollPane (bt));
 	bp.add(addb);
@@ -51,6 +63,12 @@ public class TabPanesTry extends JPanel
 	tp.add(new JScrollPane (tt));
 	tp.add(addt);
 	tp.add(updatet);
+
+	sp.add(new JScrollPane (st));
+	sp.add(adds);
+	sp.add(updates);
+
+	p.setPreferredSize(new Dimension(1000, 400));
 
 	JSplitPane temp = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT);
 	temp.add(tp);
@@ -64,7 +82,8 @@ public class TabPanesTry extends JPanel
 
 	//Adding Components
 	spi.add("Planner", p);
-	add(spi, BorderLayout.CENTER);
+	spi.add("Survey", sp);
+	this.add(spi, BorderLayout.CENTER);
 	//JFrame.setContentPane(JTabbedPane spi);
 
     }
