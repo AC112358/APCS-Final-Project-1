@@ -99,7 +99,7 @@ public static double T(Schedule s){
 			    if (!breakAdded){
 					newTime = RankSchedule.taskTime2(schedule, i, breakIndex, verbose);
 					newEnergy = RankSchedule.newEnergy2(schedule, i);
-					if (newEnergy <= .2 * origEnergy){
+					if (newEnergy <= 20){
 						//if (verbose){System.out.println("\t\t ENERGY: " + newEnergy);}
 						Break b = new Break();
 						//b.name = "Break " + breakIndex;
