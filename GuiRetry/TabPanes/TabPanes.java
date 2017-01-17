@@ -3,34 +3,87 @@ import java.awt.*;
 
 public class TabPanes extends JPanel
 {
-    //JFrame window = new JFrame();
-    JPanel window = new JPanel();
+
+    JSplitPane p = new JSplitPane();
     JTabbedPane spi = new JTabbedPane();
-    JScrollPane t = new JScrollPane();
-    JScrollPane b = new JScrollPane();
-    JSplitPane p = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				  t,b);
+
+    
+    JPanel tp = new JPanel();
+    String[] tColNames = new String[] {"Task (Subjectname Taskname)",
+				       "Estimated Time to Complete (min)",
+				       "Time Variability (min)"};
+    String[][] tData = new String[6][3];
+    JTable tt = new JTable(tData, tColNames);
+
+    //===========
+    JPanel bp = new JPanel();
+    String[] bColNames = new String[] {"Break name",
+				       "Break Time (Range)",
+				       "Time To Complete (min)"};
+    String[][] bData = new String[6][3];
+    JTable bt = new JTable(bData, bColNames);
+    //============
+    JPanel sp = new JPanel();
+    String[] sColNames = new String[] {"Subject Name",
+				       "Difficulty (/100)",
+				       "Enjoyment (/100)"};
+    String[][] sData = new String[6][3];
+    JTable st = new JTable(sData, sColNames);
+
+    
+
+    
+
+    //buttons
+    JButton addt = new JButton("ADD TASK");
+    JButton addb = new JButton("ADD BREAK");
+
+    JButton updatet = new JButton("UPDATE TASK");
+    JButton updateb = new JButton("UPDATE BREAK");
+
+    JButton adds = new JButton("ADD SUBJECT (ROW)");
+    JButton updates = new JButton("UPDATE SURVEY");
 
     public TabPanes() {
+
+        bp.setBorder(BorderFactory.createTitledBorder("Break List"));
+	BoxLayout bLayout = new BoxLayout(bp, BoxLayout.Y_AXIS);
+	bp.setLayout(bLayout);
+	
+        tp.setBorder(BorderFactory.createTitledBorder("Task List"));
+	BoxLayout tLayout = new BoxLayout(tp, BoxLayout.Y_AXIS);
+	tp.setLayout(tLayout);
+
+        sp.setBorder(BorderFactory.createTitledBorder("Survey Form"));
+	
+	bp.add(new JScrollPane (bt));
+	bp.add(addb);
+	bp.add(updateb);
+	
+	tp.add(new JScrollPane (tt));
+	tp.add(addt);
+	tp.add(updatet);
+
+	sp.add(new JScrollPane (st));
+	sp.add(adds);
+	sp.add(updates);
+
+	p.setPreferredSize(new Dimension(1000, 400));
+
+	JSplitPane temp = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT);
+	temp.add(tp);
+	temp.add(bp);
+	p = temp;
 	//splitpane settings
 	p.setOneTouchExpandable(true);
-        p.setDividerLocation(750);
-	p.setPreferredSize(new Dimension(1500, 800));
-
-	//settings for components of p
+        p.setDividerLocation(500);
+	p.setPreferredSize(new Dimension(1000, 400));
 	
-	JLabel sp = new JLabel();
-	sp.setText("Planner");
-	JLabel st = new JLabel();
-	sp.setText("Task Lists");
-	JLabel sb = new JLabel();
-	sp.setText("Break Lists");
 
 	//Adding Components
-	t.add(st);
-	b.add(sb);
-	//what didn't work
-	window.add(p, BorderLayout.CENTER);
+	spi.add("Planner", p);
+	spi.add("Survey", sp);
+	this.add(spi, BorderLayout.CENTER);
 	//JFrame.setContentPane(JTabbedPane spi);
 
     }
@@ -40,6 +93,11 @@ public class TabPanes extends JPanel
     {
 	return spi;
     }
+
+    public void setTabbedPane (JTabbedPane tab)
+    {
+	tab = getTabbedPane();
+    }
     
 	
 
@@ -47,18 +105,12 @@ public class TabPanes extends JPanel
 
 	JFrame f = new JFrame("Schedule Planner Doc");
 	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	f.setSize(1600,900);
-	TabPanes tp = new TabPanes();
-	f.getContentPane().add(tp.getTabbedPane());
+	f.setSize(1500,800);
+	f.add(new TabPanes(), BorderLayout.CENTER);
 
 	//Display
-	   
-	Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-	int xcor = (int) ((d.getWidth() - f.getWidth()) / 2);
-	int ycor = (int) ((d.getHeight() - f.getHeight()) / 2);
-	f.setLocation(xcor, ycor);
-
 	f.pack();
+	f.setLocationRelativeTo(null);
 	f.setVisible(true);
     }
 

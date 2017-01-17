@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class TabPanesTry extends JPanel
+public class TabPanesTry extends JPanel 
 {
 
     JSplitPane p = new JSplitPane();
@@ -13,7 +16,8 @@ public class TabPanesTry extends JPanel
 				       "Estimated Time to Complete (min)",
 				       "Time Variability (min)"};
     String[][] tData = new String[6][3];
-    JTable tt = new JTable(tData, tColNames);
+    DefaultTableModel tTable = new DefaultTableModel (tData, tColNames);
+    JTable tt = new JTable(tTable);
 
     //===========
     JPanel bp = new JPanel();
@@ -21,15 +25,27 @@ public class TabPanesTry extends JPanel
 				       "Break Time (Range)",
 				       "Time To Complete (min)"};
     String[][] bData = new String[6][3];
-    JTable bt = new JTable(bData, bColNames);
+    DefaultTableModel bTable = new DefaultTableModel (bData, bColNames);
+    JTable bt = new JTable (bTable);
     //============
     JPanel sp = new JPanel();
     String[] sColNames = new String[] {"Subject Name",
 				       "Difficulty (/100)",
 				       "Enjoyment (/100)"};
     String[][] sData = new String[6][3];
-    JTable st = new JTable(sData, sColNames);
+    DefaultTableModel sTable = new DefaultTableModel (sData, sColNames);
+    JTable st = new JTable(sTable);
 
+    //labels
+    JLabel sl = new JLabel(
+			   "<html>HOW-TO-USE<br><br>*Press Update to commit changes<br><br>*Press Add to add a subject(entire row)<br><br>*Difficulty and Enjoyment are out of 100<br><br><html>"
+			   );
+    JLabel tl = new JLabel(
+			   "<html>HOW-TO-USE<br><br><br>*Enter Tasks, Estimated Time to Complete, and Time Variability<br><br>*Time Variability (TV)means the range around the estimated time <br> Ex: 30 minutes TV and 45 minutes Estimated Time to Complete<br>means task would take anywhere from 15-75 minutes <br><br>*Press Update to commit changes<br><br>*Press Add to add a task(entire row)<br><br>*Be as Specific as Possible<br><br><html>"
+			   );
+    JLabel bl = new JLabel(
+			   "<html>HOW-TO-USE<br><br><br>*Enter Breaks, Break Time(Range), and Time to<br> complete. Be sure to Update<br><br>*BreakTime(Range) means around what time is this<br>break going to Happen. <br>Ex: Dinner will be 6:00pm to 8:00pm<br><br>*Ideal Stop Time and Time Interval refers to your entire<br>schuedule, not just breaks.<br><br> *Please Specify in Military Time. <br><br>*Press Update to commit changes<br><br>*Press Add to add a break (entire row)<br><br>*Be as Specific as Possible<br><br><html>"
+			   );
     
 
     
@@ -46,6 +62,13 @@ public class TabPanesTry extends JPanel
 
     public TabPanesTry() {
 
+		//set Table modes
+	/*	st.setSelectionMode(SINGLE_SELECTION);
+	bt.setSelectionMode(SINGLE_SELECTION);
+	tt.setSelectionMode(SINGLE_SELECTION); */
+
+	
+
         bp.setBorder(BorderFactory.createTitledBorder("Break List"));
 	BoxLayout bLayout = new BoxLayout(bp, BoxLayout.Y_AXIS);
 	bp.setLayout(bLayout);
@@ -57,18 +80,66 @@ public class TabPanesTry extends JPanel
         sp.setBorder(BorderFactory.createTitledBorder("Survey Form"));
 	
 	bp.add(new JScrollPane (bt));
+	bp.add(bl);
 	bp.add(addb);
 	bp.add(updateb);
 	
 	tp.add(new JScrollPane (tt));
+	tp.add(tl);
 	tp.add(addt);
 	tp.add(updatet);
 
 	sp.add(new JScrollPane (st));
+	sp.add(sl);
 	sp.add(adds);
 	sp.add(updates);
 
-	p.setPreferredSize(new Dimension(1000, 400));
+
+		//adding actionlisteners to buttons
+	addb.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e)
+		{
+		   
+		    bTable.addRow(new Object[] {});
+		}
+	    } );
+	addt.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e)
+		{
+		    
+		    tTable.addRow(new Object[] {});
+		}
+	    } );
+	adds.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e)
+		{
+		    
+		    sTable.addRow(new Object[] {});
+		}
+	    } );
+
+	/*	updateb.addActionListener(new Action Listener() {
+		public void actionPerformed(ActionEvent e)
+		{
+		    bTable.addRow(new Object[] {});
+		}
+	    } );
+	updatet.addActionListener(new Action Listener() {
+		public void actionPerformed(ActionEvent e)
+		{
+		    bTable.addRow(new Object[] {});
+		}
+	    } );
+	updates.addActionListener();(new Action Listener() {
+		public void actionPerformed(ActionEvent e)
+		{
+		    bTable.addRow(new Object[] {});
+		}
+		} );  */
+	
+
+	//survey pane settings
+	sp.setPreferredSize(new Dimension(1000, 700));
 
 	JSplitPane temp = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT);
 	temp.add(tp);
@@ -77,13 +148,13 @@ public class TabPanesTry extends JPanel
 	//splitpane settings
 	p.setOneTouchExpandable(true);
         p.setDividerLocation(500);
-	p.setPreferredSize(new Dimension(1000, 400));
+	p.setPreferredSize(new Dimension(1000, 700));
 	
 
-	//Adding Components
-	spi.add("Planner", p);
+	//Adding tabs
 	spi.add("Survey", sp);
-	this.add(spi, BorderLayout.CENTER);
+	spi.add("Planner", p);
+	add(spi, BorderLayout.CENTER);
 	//JFrame.setContentPane(JTabbedPane spi);
 
     }
@@ -98,6 +169,21 @@ public class TabPanesTry extends JPanel
     {
 	tab = getTabbedPane();
     }
+
+	/* if(e.getSource() == updateb)
+	    {
+		
+	    }
+	if(e.getSource() == ubdatet)
+	    {
+		
+	    }
+	if(e.getSource() == ubdates)
+	    {
+		
+	    } */
+
+    
     
 	
 
