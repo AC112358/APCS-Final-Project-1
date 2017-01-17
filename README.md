@@ -3,7 +3,7 @@
 subjects they have & tasks they must complete, and the program returns (prints & writes to a text file) the optimum schedule. </li>
 <li> Working features: <ul><li>the backend: takes a text file with schedule information and returns the ideal schedule </li>
 <li>Utilities.java: converts AM/PM to military time; note that this hasn't been implemented in the backend (it was made for the user interface program to use)</ul></li>
-<li> Non-Functional Work in Progress: The GUI general layout is setted up but we were unable to coordinate it with algorithmic part because of difficulty transfering data to text file in a way readable for the classes. This can be seen in GuiRetry/TabPanes where TabPanes.java has the general planner and survey format but is nonfunctional while TabPanesTry.java has work with transferring data to textfile.
+<li> Non-Functional Work in Progress: <ul><li>The GUI general layout is setted up but we were unable to coordinate it with algorithmic part because of difficulty transfering data to text file in a way readable for the classes. This can be seen in GuiRetry/TabPanes where TabPanes.java has the general planner and survey format but is nonfunctional while TabPanesTry.java has work with transferring data to textfile.
 <li> Things to test: <ul><li>making the list of activities really long to see how long it takes (the program can handle ~15 at least, but runs slowly)</li> <li>if the schedule goes into multiple days, doesn't specify the day</li></ul>
 <li> Bugs: <ul><li>breaks with 0 time show up, but don't take up any time</li><li>it is not guaranteed that a break will 
 be placed within its time slot; in this case, it will go as early as possible for that particular schedule</li>
