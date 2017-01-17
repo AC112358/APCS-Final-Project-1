@@ -22,8 +22,11 @@ public class ScheduleFilter {
 			if (schedule.idealStop > schedule.stopTime){
 				return "Ideal stop time must be before actual stop time";
 			}
-			if (schedule.startTime >= schedule.stopTime){
-				return "Start time must be before stop time";
+			if (schedule.startTime >= schedule.stopTime || schedule.startTime >= schedule.idealStop){
+				return "Start time must be before stop time & ideal stop time";
+			}
+			if (schedule.startTime < 0 || schedule.stopTime < 0){
+				return "Start & stop times must be non-negative";
 			}
 			if (schedule.stopTime >= 2400){
 				return "Stop time must be before 23:59 (11:59 PM)";
@@ -81,6 +84,9 @@ public class ScheduleFilter {
 				message = "Task expected time and variability must be numbers";
 				double t = Double.parseDouble(tokens[tokens.length-2]);
 				double v = Double.parseDouble(tokens[tokens.length-1]);
+				if (t <= 0){
+					return "Task expected time must be >= 0";
+				}
 				if (subjIndex == -1){
 					//add ability to give difficulty, enjoyment to specific tasks here
 					return "Task name must be in format: subjectname taskname, e.g., precalc hw";
@@ -96,7 +102,10 @@ public class ScheduleFilter {
 				double start = Double.parseDouble(tokens[index-3]);
 				double end = Double.parseDouble(tokens[index-2]);
 				if (start >= end || end >= 2500){
-					return "Start time must be before end time and maximum time is 24:59.9999";
+					return "Start time must be before end time and maximum time is 23:59.9999";
+				}
+				if (start < 0){
+					return "Can't have a negative break start time";
 				}
 				double totalTime = Double.parseDouble(tokens[index-1]);
 				if (totalTime < 0){
